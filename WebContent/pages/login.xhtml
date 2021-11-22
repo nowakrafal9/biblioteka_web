@@ -14,17 +14,17 @@
 			<h:form>
 				<p:panelGrid columns="3" styleClass="ui-noborder">
 					<h:outputLabel for="login" value="Login:" />
-					<p:inputText id="login" value=""
+					<p:inputText id="login" value="#{loginBB.login}"
 						required="true"	requiredMessage="Podaj login"/>
 					<p:message for="login" />
 					<h:outputLabel for="pass" value="Hasło:" />
-					<p:password id="pass" value=""
+					<p:password id="pass" value="#{loginBB.password}"
 						required="true"	requiredMessage="Podaj hasło"
 						toggleMask="true" redisplay="true"/>
 					<p:message for="pass" />
 				</p:panelGrid>
 					
-				<p:commandButton value="Zaloguj" update="@form"/>
+				<h:commandButton value="Zaloguj" action="#{loginBB.doLogin()}" update="msg" />
 			</h:form>
 			<p:messages id="msg" />
 		</p:panel>
