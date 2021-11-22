@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:composition template="/templates/page-template.xhtml">
+	<ui:define name="pageContent">
+		<p:panel>
+			<h:form>
+				<p:panelGrid columns="3" styleClass="ui-noborder">
+					<h:outputLabel for="login" value="Login:" />
+					<p:inputText id="login" value=""
+						required="true"	requiredMessage="Podaj login"/>
+					<p:message for="login" />
+					<h:outputLabel for="pass" value="Hasło:" />
+					<p:password id="pass" value=""
+						required="true"	requiredMessage="Podaj hasło"
+						toggleMask="true" redisplay="true"/>
+					<p:message for="pass" />
+				</p:panelGrid>
+					
+				<p:commandButton value="Zaloguj" update="@form"/>
+			</h:form>
+			<p:messages id="msg" />
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

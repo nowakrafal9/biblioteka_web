@@ -1,0 +1,24 @@
+body {
+	font-family: 'Helvetica', 'Arial', sans-serif;
+	background-color: #414141;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: right;
+	width: 70%;
+}
+
+#header {
+	margin-top: 1em;
+	text-align: center;
+}
+
+#footer{
+	text-align: center;
+}
+
+.ui-panel {
+	margin: 0 0.5em 1em 0.5em;
+}
+
+
