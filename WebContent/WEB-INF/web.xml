@@ -23,7 +23,8 @@
 			<param-value>
 /javax.faces.resource : PUBLIC;
 /pages : administrator;
-/pages/main : pracownik, administrator;
+/pages/admin : administrator;
+/pages/library : pracownik, administrator;
 			</param-value>
 		</init-param>
 		
@@ -75,7 +76,7 @@
 	</servlet-mapping>
 	
 	<welcome-file-list>
-		<welcome-file>/pages/main/main.xhtml</welcome-file>
+		<welcome-file>/pages/library/main.xhtml</welcome-file>
 	</welcome-file-list>
 	
 </web-app>
