@@ -15,7 +15,8 @@
 		</p:panel>
 		
 		<p:panel>
-			<h:outputText value="Zalogowany: #{remoteClient.details.name} #{remoteClient.details.surname}" />
+			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
+			
 			<h:form>
 				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
 			</h:form>
