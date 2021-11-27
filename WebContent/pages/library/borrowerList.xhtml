@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/page-template.xhtml">
+	<ui:define name="pageContent">
+		<p:panel>
+			Lista czytelników
+		</p:panel>
+
+		<p:panel header="Filtr wyszukiwania:" toggleable="true"
+			collapsed="true">
+
+			<h:form>
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel value="Imię" />
+					<p:inputText value="#{borrowerListBB.name}" />
+					<h:outputLabel value="Nazwisko:" />
+					<p:inputText value="#{borrowerListBB.surname}" />
+					<p:commandButton value="Szukaj" update="data-table" />
+				</h:panelGrid>
+			</h:form>
+		</p:panel>
+
+		<p:panel header="Panel administratora" toggleable="true" collapsed="true">
+			<h:form>
+				<p:commandButton value="Dodaj nową osobę"
+					action="#{borrowerListBB.newBorrower()}" />
+			</h:form>
+		</p:panel>
+
+		<p:panel>
+			<div class="card">
+				<h:form id="data-table">
+					<p:dataTable var="borrower" value="#{borrowerListBB.list}"
+						paginator="true" rows="10"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						rowsPerPageTemplate="5,10,20" id="borrowerTable">
+
+						<p:column headerText="Name">
+							<h:outputText value="#{borrower.name}" />
+						</p:column>
+
+						<p:column headerText="Surname">
+							<h:outputText style="vertical-align: middle; margin-left: .5rem"
+								value="#{borrower.surname}" />
+						</p:column>
+
+						<p:column headerText="City">
+							<h:outputText value="#{borrower.city}" />
+						</p:column>
+
+						<p:column headerText="Address">
+							<h:outputText style="vertical-align: middle; margin-left: .5rem"
+								value="#{borrower.address}" />
+						</p:column>
+
+						<p:column headerText="Opcje"
+							rendered="#{remoteClient.isInRole('Administrator')}">
+							<p:commandButton value="Edytuj"
+								action="#{borrowerListBB.editBorrower(borrower)}" />
+							<p:commandButton value="Usuń"
+								action="#{borrowerListBB.delBorrower(borrower)}" update="@form" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</p:panel>
+
+		<p:panel>
+			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
+
+			<h:form>
+				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>
+

@@ -15,11 +15,11 @@
 		</p:panel>
 		
 		<p:panel>
-			<h:link value="Lista czytelników" outcome="readerList"/> <br/>
+			<h:link value="Lista czytelników" outcome="borrowerList"/> <br/>
 			<h:link value="Lista tytułów" outcome="titleList"/> <br/>
 			<h:link value="Lista książek" outcome="bookList"/> <br/>
 			<h:link value="Lista wypożyczonych książek" outcome="borrowedList"/> <br/>
-			<h:link value="Lista pracowników" rendered="#{remoteClient.isInRole('administrator')}" outcome="/pages/admin/employeeList"/> <br/>
+			<h:link value="Lista pracowników" rendered="#{remoteClient.isInRole('Administrator')}" outcome="/pages/admin/employeeList"/> <br/>
 		</p:panel>
 		
 		<p:panel>
