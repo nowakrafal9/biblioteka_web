@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+	<f:viewAction action="#{borrowerEditBB.onLoad()}" />
+</f:metadata>
+
+<ui:composition template="/templates/page-template.xhtml">
+	<ui:define name="pageContent">
+		<p:panel>
+			Edycja czytelnika
+		</p:panel>
+
+		<p:panel>
+			<div class="card">
+				<h:form rendered="#{borrowerEditBB.borrower != null}">
+					<h:panelGrid columns="3" cellpadding="5">
+					
+						<h:outputLabel for="libraryCode" value="Kod czytelnika:" />
+						<p:inputText id="libraryCode" value="#{borrowerEditBB.borrower.borrowerCode}"
+							required="true" requiredMessage="Podaj kod czyelnika"
+							validatorMessage="co najwyżej 6 znaków">
+							<f:validateLength maximum="6" />
+						</p:inputText>
+						<p:message for="name" />
+
+						<h:outputLabel for="name" value="Imię:" />
+						<p:inputText id="name" value="#{borrowerEditBB.borrower.name}"
+							required="true" requiredMessage="Podaj imię"
+							validatorMessage="co najwyżej 40 znaków">
+							<f:validateLength maximum="40" />
+						</p:inputText>
+						<p:message for="name" />
+
+						<h:outputLabel for="surname" value="Nazwisko:" />
+						<p:inputText id="surname"
+							value="#{borrowerEditBB.borrower.surname}" required="true"
+							requiredMessage="podaj nazwisko"
+							validatorMessage="co najwyżej 40 znaków">
+							<f:validateLength maximum="40" />
+						</p:inputText>
+						<p:message for="surname" />
+						
+						<h:outputLabel for="surname" value="Miasto" />	
+						<p:inputText id="city"
+							value="#{borrowerEditBB.borrower.city}" required="true"
+							requiredMessage="podaj nazwisko"
+							validatorMessage="co najwyżej 40 znaków">
+							<f:validateLength maximum="40" />
+						</p:inputText>
+						<p:message for="city" />
+						
+						<h:outputLabel for="surname" value="Kod pocztowy:" />
+						<p:inputText id="postalCode"
+							value="#{borrowerEditBB.borrower.postalCode}" required="true"
+							requiredMessage="podaj nazwisko"
+							validatorMessage="co najwyżej 40 znaków">
+							<f:validateLength maximum="40" />
+						</p:inputText>
+						<p:message for="postalCode" />
+						
+						<h:outputLabel for="surname" value="Adres zamieszkania:" />
+						<p:inputText id="address"
+							value="#{borrowerEditBB.borrower.address}" required="true"
+							requiredMessage="podaj nazwisko"
+							validatorMessage="co najwyżej 40 znaków">
+							<f:validateLength maximum="40" />
+						</p:inputText>
+						<p:message for="address" />
+						
+						<h:outputLabel for="surname" value="Numer telefonu" />
+						<p:inputText id="phoneNum"
+							value="#{borrowerEditBB.borrower.phoneNum}" required="true"
+							requiredMessage="podaj nazwisko"
+							validatorMessage="co najwyżej 40 znaków">
+							<f:validateLength maximum="40" />
+						</p:inputText>
+						<p:message for="phoneNum" />
+						
+					</h:panelGrid>
+
+					<p:messages id="msgs" />
+
+					<p:commandButton value="Zapisz"
+						action="#{borrowerEditBB.saveData()}" style="margin-right: 1em;"
+						update="@form" />
+
+					<p:button value="Anuluj" outcome="borrowerList" />
+				</h:form>
+			</div>
+		</p:panel>
+
+		<p:panel>
+			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
+
+			<h:form>
+				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>
+
