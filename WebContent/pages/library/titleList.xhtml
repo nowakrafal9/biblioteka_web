@@ -11,12 +11,11 @@
 <ui:composition template="/templates/page-template.xhtml">
 	<ui:define name="pageContent">
 		<p:panel>
-			Edycja czytelnika
+			Lista tytułów
 		</p:panel>
 		
 		<p:panel>
-			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
-			
+			<h:outputText value="Zalogowany: #{remoteClient.details.name} #{remoteClient.details.surname}" />
 			<h:form>
 				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
 			</h:form>
