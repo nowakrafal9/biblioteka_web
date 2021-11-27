@@ -22,9 +22,9 @@
 			<param-name>permissions</param-name>
 			<param-value>
 /javax.faces.resource : PUBLIC;
-/pages : administrator;
-/pages/admin : administrator;
-/pages/library : pracownik, administrator;
+/pages : Administrator;
+/pages/admin : Administrator;
+/pages/library : Pracownik, Administrator;
 			</param-value>
 		</init-param>
 		
@@ -79,4 +79,8 @@
 		<welcome-file>/pages/library/main.xhtml</welcome-file>
 	</welcome-file-list>
 	
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/pages/sessionExpired.xhtml</location>
+	</error-page>
 </web-app>
