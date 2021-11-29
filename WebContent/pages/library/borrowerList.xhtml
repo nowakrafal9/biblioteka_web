@@ -20,14 +20,29 @@
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel value="Imię" />
 					<p:inputText value="#{borrowerListBB.name}" />
+
 					<h:outputLabel value="Nazwisko:" />
 					<p:inputText value="#{borrowerListBB.surname}" />
+
+
+					<h:outputLabel value="Status czytelnika:"
+						rendered="#{remoteClient.isInRole('Administrator')}" />
+					<p:selectOneRadio id="status" value="#{borrowerListBB.status}"
+						unselectable="true"
+						rendered="#{remoteClient.isInRole('Administrator')}">
+						<f:selectItem itemLabel="Aktywny" itemValue="1" />
+						<f:selectItem itemLabel="Zablokowany" itemValue="0" />
+						<f:selectItem itemLabel="Wszyscy" itemValue="2" />
+					</p:selectOneRadio>
+
+
 					<p:commandButton value="Szukaj" update="data-table" />
 				</h:panelGrid>
 			</h:form>
 		</p:panel>
 
-		<p:panel header="Panel administratora" toggleable="true" collapsed="true">
+		<p:panel header="Panel administratora" toggleable="true"
+			collapsed="true">
 			<h:form>
 				<p:commandButton value="Dodaj nową osobę"
 					action="#{borrowerListBB.newBorrower()}" />

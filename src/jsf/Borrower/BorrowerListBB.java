@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
@@ -22,6 +23,7 @@ public class BorrowerListBB {
 
 	private String name;
 	private String surname;
+	private byte status;
 
 	@Inject
 	ExternalContext externalContext;
@@ -32,6 +34,11 @@ public class BorrowerListBB {
 	@EJB
 	BorrowerDAO borrowerDAO;
 
+	@PostConstruct
+    public void init() {
+		status = (byte) 1;
+    }
+	
 	public String getName() {
 		return name;
 	}
@@ -46,6 +53,14 @@ public class BorrowerListBB {
 
 	public void setSurname(String surname) {
 		this.surname = surname;
+	}
+
+	public byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 
 	public List<Borrower> getFullList() {
@@ -63,10 +78,8 @@ public class BorrowerListBB {
 		if (surname != null && surname.length() > 0) {
 			filterParams.put("surname", surname);
 		}
-
-		System.out.println(filterParams.get("name"));
-		System.out.println(filterParams.get("surname"));
-
+		filterParams.put("status", status);
+		
 		list = borrowerDAO.getList(filterParams);
 
 		return list;
