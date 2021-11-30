@@ -78,9 +78,11 @@
 						<p:column headerText="Opcje"
 							rendered="#{remoteClient.isInRole('Administrator')}">
 							<p:commandButton value="Edytuj"
-								action="#{borrowerListBB.editBorrower(borrower)}" />
+								action="#{borrowerListBB.editBorrower(borrower)}"
+								style="margin-right: 2px;" />
 							<p:commandButton value="Usuń"
-								action="#{borrowerListBB.delBorrower(borrower)}" update="@form" />
+								action="#{borrowerListBB.delBorrower(borrower)}" update="@form" 
+								style="margin-left: 2px;" />
 						</p:column>
 					</p:dataTable>
 				</h:form>
