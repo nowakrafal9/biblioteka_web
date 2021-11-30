@@ -44,7 +44,7 @@ public class BorrowerEditBB implements Serializable {
 		if (loaded != null) {
 			borrower = loaded;
 		} else {
-			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "B³êdna u¿ycie systemu", null));
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "BÅ‚Ä™dne uÅ¼ycie systemu", null));
 		}
 	}
 	
@@ -62,7 +62,7 @@ public class BorrowerEditBB implements Serializable {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wyst¹pi³ b³¹d podczas zapisu", null));
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "WystÄ…piÅ‚ bÅ‚Ä…d podczas zapisu", null));
 			return PAGE_STAY_AT_THE_SAME;
 		}
 		
