@@ -8,6 +8,10 @@ body {
 	width: 70%;
 }
 
+a{
+	color: gray;
+}
+
 #header {
 	margin-top: 1em;
 	text-align: center;

@@ -86,6 +86,12 @@
 						</p:inputText>
 						<p:message for="phoneNum" />
 
+						<h:outputLabel value="Status czytelnika:" />
+						<p:selectOneRadio id="status" value="#{borrowerEditBB.borrower.status}"
+							unselectable="true">
+							<f:selectItem itemLabel="Aktywny" itemValue="1" />
+							<f:selectItem itemLabel="Zablokowany" itemValue="0" />
+						</p:selectOneRadio>
 					</h:panelGrid>
 
 					<p:messages id="msgs" />
