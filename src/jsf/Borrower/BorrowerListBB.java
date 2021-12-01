@@ -21,9 +21,11 @@ public class BorrowerListBB {
 	private static final String PAGE_STAY_AT_THE_SAME = null;
 	private static final String PAGE_PERSON_EDIT = "borrowerEdit?faces-redirect=true";
 
+	private String borrowerCode;
 	private String name;
 	private String surname;
-	private byte status;
+	private String city;
+	private byte status = 1;
 
 	@Inject
 	ExternalContext externalContext;
@@ -34,11 +36,14 @@ public class BorrowerListBB {
 	@EJB
 	BorrowerDAO borrowerDAO;
 
-	@PostConstruct
-    public void init() {
-		status = (byte) 1;
-    }
-	
+	public String getBorrowerCode() {
+		return borrowerCode;
+	}
+
+	public void setBorrowerCode(String borrowerCode) {
+		this.borrowerCode = borrowerCode;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -53,6 +58,14 @@ public class BorrowerListBB {
 
 	public void setSurname(String surname) {
 		this.surname = surname;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public byte getStatus() {
@@ -72,14 +85,20 @@ public class BorrowerListBB {
 
 		Map<String, Object> filterParams = new HashMap<String, Object>();
 
+		if (borrowerCode != null && borrowerCode.length() > 0) {
+			filterParams.put("borrowerCode", borrowerCode);
+		}
 		if (name != null && name.length() > 0) {
 			filterParams.put("name", name);
 		}
 		if (surname != null && surname.length() > 0) {
 			filterParams.put("surname", surname);
 		}
+		if (city != null && city.length() > 0) {
+			filterParams.put("city", city);
+		}
 		filterParams.put("status", status);
-		
+
 		list = borrowerDAO.getList(filterParams);
 
 		return list;
