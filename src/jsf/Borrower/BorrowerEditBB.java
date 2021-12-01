@@ -47,15 +47,14 @@ public class BorrowerEditBB implements Serializable {
 			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błędne użycie systemu", null));
 		}
 	}
-	
+
 	public String saveData() {
-		if(loaded == null) {
+		if (loaded == null) {
 			return PAGE_STAY_AT_THE_SAME;
 		}
-		
+
 		try {
-			if(borrower.getIdBorrower() == null) {
-				borrower.setStatus((byte) 1);
+			if (borrower.getIdBorrower() == null) {
 				borrowerDAO.create(borrower);
 			} else {
 				borrowerDAO.merge(borrower);
@@ -65,7 +64,7 @@ public class BorrowerEditBB implements Serializable {
 			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd podczas zapisu", null));
 			return PAGE_STAY_AT_THE_SAME;
 		}
-		
+
 		return PAGE_BORROWER_LIST;
 	}
 }

@@ -1,23 +1,30 @@
 package jsf.Borrower;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.Flash;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.model.FilterMeta;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortMeta;
 
 import jsf.dao.BorrowerDAO;
 import jsf.entities.Borrower;
 
 @Named
-@RequestScoped
-public class BorrowerListBB {
+@ViewScoped
+public class BorrowerListBB implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private static final String PAGE_STAY_AT_THE_SAME = null;
 	private static final String PAGE_PERSON_EDIT = "borrowerEdit?faces-redirect=true";
 
@@ -27,6 +34,8 @@ public class BorrowerListBB {
 	private String city;
 	private byte status = 1;
 
+	private LazyDataModel<Borrower> lazyBorrowers;
+
 	@Inject
 	ExternalContext externalContext;
 
@@ -35,6 +44,43 @@ public class BorrowerListBB {
 
 	@EJB
 	BorrowerDAO borrowerDAO;
+
+	@PostConstruct
+	public void init() {
+		lazyBorrowers = new LazyDataModel<Borrower>() {
+			private static final long serialVersionUID = 1L;
+
+			private List<Borrower> borrowers;
+
+			Map<String, Object> filterParams = new HashMap<String, Object>();
+
+			@Override
+			public List<Borrower> load(int offset, int pageSize, Map<String, SortMeta> sortBy,
+					Map<String, FilterMeta> filterBy) {
+
+				if (borrowerCode != null && borrowerCode.length() > 0) {
+					filterParams.put("borrowerCode", borrowerCode);
+				}
+				if (name != null && name.length() > 0) {
+					filterParams.put("name", name);
+				}
+				if (surname != null && surname.length() > 0) {
+					filterParams.put("surname", surname);
+				}
+				if (city != null && city.length() > 0) {
+					filterParams.put("city", city);
+				}
+				filterParams.put("status", status);
+
+				borrowers = borrowerDAO.getLazyList(filterParams, offset, pageSize);
+
+				int rowCount = (int) borrowerDAO.countLazyList(filterParams);
+				setRowCount(rowCount);
+
+				return borrowers;
+			}
+		};
+	}
 
 	public String getBorrowerCode() {
 		return borrowerCode;
@@ -76,32 +122,12 @@ public class BorrowerListBB {
 		this.status = status;
 	}
 
-	public List<Borrower> getFullList() {
-		return borrowerDAO.getFullList();
+	public LazyDataModel<Borrower> getLazyBorrowers() {
+		return lazyBorrowers;
 	}
 
-	public List<Borrower> getList() {
-		List<Borrower> list = null;
-
-		Map<String, Object> filterParams = new HashMap<String, Object>();
-
-		if (borrowerCode != null && borrowerCode.length() > 0) {
-			filterParams.put("borrowerCode", borrowerCode);
-		}
-		if (name != null && name.length() > 0) {
-			filterParams.put("name", name);
-		}
-		if (surname != null && surname.length() > 0) {
-			filterParams.put("surname", surname);
-		}
-		if (city != null && city.length() > 0) {
-			filterParams.put("city", city);
-		}
-		filterParams.put("status", status);
-
-		list = borrowerDAO.getList(filterParams);
-
-		return list;
+	public List<Borrower> getFullList() {
+		return borrowerDAO.getFullList();
 	}
 
 	public String editBorrower(Borrower borrower) {

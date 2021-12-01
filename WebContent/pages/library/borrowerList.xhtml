@@ -20,7 +20,7 @@
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel value="Kod" />
 					<p:inputText value="#{borrowerListBB.borrowerCode}" />
-					
+
 					<h:outputLabel value="Imię" />
 					<p:inputText value="#{borrowerListBB.name}" />
 
@@ -29,7 +29,7 @@
 
 					<h:outputLabel value="Miasto" />
 					<p:inputText value="#{borrowerListBB.city}" />
-					
+
 					<h:outputLabel value="Status czytelnika:"
 						rendered="#{remoteClient.isInRole('Administrator')}" />
 					<p:selectOneRadio id="status" value="#{borrowerListBB.status}"
@@ -57,10 +57,11 @@
 		<p:panel>
 			<div class="card">
 				<h:form id="data-table">
-					<p:dataTable var="borrower" value="#{borrowerListBB.list}"
-						paginator="true" rows="10"
+					
+					 <p:dataTable var="borrower" value="#{borrowerListBB.lazyBorrowers}"
+						paginator="true" rows="1"
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-						rowsPerPageTemplate="5,10,20" id="borrowerTable">
+						rowsPerPageTemplate="1,10,20" id="borrowerTable">
 
 						<p:column headerText="Kod">
 							<h:outputText value="#{borrower.borrowerCode}" />
