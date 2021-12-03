@@ -59,7 +59,9 @@ public class TitleListBB implements Serializable {
 			@Override
 			public List<Bookinfo> load(int offset, int pageSize, Map<String, SortMeta> sortBy,
 					Map<String, FilterMeta> filterBy) {
-
+				
+				filterParams.clear();
+				
 				if (code != null && code.length() > 0) {
 					filterParams.put("code", code);
 				}

@@ -58,6 +58,8 @@ public class BorrowerListBB implements Serializable {
 			public List<Borrower> load(int offset, int pageSize, Map<String, SortMeta> sortBy,
 					Map<String, FilterMeta> filterBy) {
 
+				filterParams.clear();
+				
 				if (borrowerCode != null && borrowerCode.length() > 0) {
 					filterParams.put("borrowerCode", borrowerCode);
 				}
