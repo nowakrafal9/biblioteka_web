@@ -44,8 +44,10 @@
 					<p:dataTable var="title" value="#{titleListBB.lazyTitles}"
 						paginator="true" rows="1"
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-						rowsPerPageTemplate="1,10,20" id="borrowerTable">
-
+						rowsPerPageTemplate="1,10,20" selectionMode="single"
+						selection="#{titleListBB.selectedBook}" id="borrowerTable">
+						<p:ajax event="rowSelect" update="@form:titleDetail"
+							oncomplete="PF('titleDialog').show()" />
 						<p:column headerText="Kod">
 							<h:outputText value="#{title.code}" />
 						</p:column>
@@ -68,6 +70,23 @@
 						</p:column>
 
 					</p:dataTable>
+
+					<p:dialog header="Tytuł" widgetVar="titleDialog"
+						modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+						<p:outputPanel id="titleDetail" style="text-align:center;">
+							<p:panelGrid columns="2"
+								rendered="#{not empty titleListBB.selectedBook}"
+								columnClasses="label,value">
+
+								<h:outputText value="Kod: " />
+								<h:outputText value="#{titleListBB.selectedBook.code}" />
+
+								<h:outputText value="Tytuł: " />
+								<h:outputText value="#{titleListBB.selectedBook.title}" />
+
+							</p:panelGrid>
+						</p:outputPanel>
+					</p:dialog>
 				</h:form>
 			</div>
 		</p:panel>

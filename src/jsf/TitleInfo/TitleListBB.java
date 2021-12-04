@@ -37,14 +37,14 @@ public class TitleListBB implements Serializable {
 	private String publisher;
 
 	private LazyDataModel<Bookinfo> lazyTitles;
-	
+	private Bookinfo selectedBook;
+
 	@Inject
 	ExternalContext externalContext;
 
 	@Inject
 	Flash flash;
-	AuthorListBB authorListBB;
-	
+
 	@EJB
 	BookInfoDAO bookInfoDAO;
 
@@ -56,6 +56,21 @@ public class TitleListBB implements Serializable {
 			private List<Bookinfo> titles;
 
 			Map<String, Object> filterParams = new HashMap<String, Object>();
+
+			@Override
+			public Bookinfo getRowData(String rowKey) {
+				for (Bookinfo bookinfo : titles) {
+					if (bookinfo.getIdTitle() == Integer.parseInt(rowKey)) {
+						return bookinfo;
+					}
+				}
+				return null;
+			}
+
+			@Override
+			public String getRowKey(Bookinfo bookinfo) {
+				return String.valueOf(bookinfo.getIdTitle());
+			}
 
 			@Override
 			public List<Bookinfo> load(int offset, int pageSize, Map<String, SortMeta> sortBy,
@@ -131,6 +146,14 @@ public class TitleListBB implements Serializable {
 
 	public LazyDataModel<Bookinfo> getLazyTitles() {
 		return lazyTitles;
+	}
+
+	public Bookinfo getSelectedBook() {
+		return selectedBook;
+	}
+
+	public void setSelectedBook(Bookinfo selectedBook) {
+		this.selectedBook = selectedBook;
 	}
 
 	public List<Bookinfo> getFullList() {

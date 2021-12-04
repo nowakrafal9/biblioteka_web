@@ -49,7 +49,7 @@
 		<p:panel header="Panel administratora" toggleable="true"
 			collapsed="true" rendered="#{remoteClient.isInRole('Administrator')}">
 			<h:form>
-				<p:commandButton value="Dodaj nową osobę"
+				<p:commandButton value="Dodaj nowego czytelnika"
 					action="#{borrowerListBB.newBorrower()}" />
 			</h:form>
 		</p:panel>
@@ -57,12 +57,14 @@
 		<p:panel>
 			<div class="card">
 				<h:form id="data-table">
-					
-					 <p:dataTable var="borrower" value="#{borrowerListBB.lazyBorrowers}"
-						paginator="true" rows="1"
-						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-						rowsPerPageTemplate="1,10,20" id="borrowerTable">
 
+					<p:dataTable var="borrower" value="#{borrowerListBB.lazyBorrowers}"
+						paginator="true" rows="10"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						rowsPerPageTemplate="10,25,50" selectionMode="single"
+						selection="#{borrowerListBB.selectedBorrower}" id="borrowerTable">
+						<p:ajax event="rowSelect" update="@form:borrowerDetail"
+							oncomplete="PF('borrowerDialog').show()" />
 						<p:column headerText="Kod">
 							<h:outputText value="#{borrower.borrowerCode}" />
 						</p:column>
@@ -79,17 +81,55 @@
 						<p:column headerText="Miasto">
 							<h:outputText value="#{borrower.city}" />
 						</p:column>
-
-						<p:column headerText="Opcje"
-							rendered="#{remoteClient.isInRole('Administrator')}">
-							<p:commandButton value="Edytuj"
-								action="#{borrowerListBB.editBorrower(borrower)}"
-								style="margin-right: 2px;" />
-							<p:commandButton value="Usuń"
-								action="#{borrowerListBB.delBorrower(borrower)}" update="@form"
-								style="margin-left: 2px;" />
-						</p:column>
 					</p:dataTable>
+
+					<p:dialog header="Czytelnik" widgetVar="borrowerDialog"
+						modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+						<p:outputPanel id="borrowerDetail" style="text-align:center;">
+							<p:panelGrid columns="2"
+								rendered="#{not empty borrowerListBB.selectedBorrower}"
+								columnClasses="label,value">
+
+								<h:outputText value="Kod: " />
+								<h:outputText
+									value="#{borrowerListBB.selectedBorrower.borrowerCode}" />
+
+								<h:outputText value="Imię: " />
+								<h:outputText value="#{borrowerListBB.selectedBorrower.name}" />
+
+								<h:outputText value="Nazwisko: " />
+								<h:outputText value="#{borrowerListBB.selectedBorrower.surname}" />
+
+								<h:outputText value="Miasto: " />
+								<h:outputText value="#{borrowerListBB.selectedBorrower.city}" />
+
+								<h:outputText value="Kod pocztowy:  " />
+								<h:outputText
+									value="#{borrowerListBB.selectedBorrower.postalCode}" />
+
+								<h:outputText value="Adres:  " />
+								<h:outputText value="#{borrowerListBB.selectedBorrower.address}" />
+
+								<h:outputText value="Nr telefonu:  " />
+								<h:outputText
+									value="#{borrowerListBB.selectedBorrower.phoneNum}" />
+
+								<h:outputText value="Email: "
+									rendered="#{not empty borrowerListBB.selectedBorrower.email}" />
+								<h:outputText value="#{borrowerListBB.selectedBorrower.email}"
+									rendered="#{not empty borrowerListBB.selectedBorrower.email}" />
+
+								<p:commandButton value="Edytuj"
+									action="#{borrowerListBB.editBorrower(borrowerListBB.selectedBorrower)}"
+									style="margin-right: 2px;"
+									rendered="#{remoteClient.isInRole('Administrator')}" />
+								<p:commandButton value="Usuń"
+									action="#{borrowerListBB.delBorrower(borrower)}" update="@form"
+									style="margin-left: 2px;"
+									rendered="#{remoteClient.isInRole('Administrator')}" />
+							</p:panelGrid>
+						</p:outputPanel>
+					</p:dialog>
 				</h:form>
 			</div>
 		</p:panel>

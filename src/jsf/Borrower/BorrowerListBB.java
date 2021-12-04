@@ -7,12 +7,15 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
@@ -35,6 +38,7 @@ public class BorrowerListBB implements Serializable {
 	private byte status = 1;
 
 	private LazyDataModel<Borrower> lazyBorrowers;
+	private Borrower selectedBorrower;
 
 	@Inject
 	ExternalContext externalContext;
@@ -55,11 +59,27 @@ public class BorrowerListBB implements Serializable {
 			Map<String, Object> filterParams = new HashMap<String, Object>();
 
 			@Override
+			public Borrower getRowData(String rowKey) {
+				for (Borrower borrower : borrowers) {
+					if (borrower.getIdBorrower() == Integer.parseInt(rowKey)) {
+						System.out.println(borrower.getName());
+						return borrower;
+					}
+				}
+				return null;
+			}
+
+			@Override
+			public String getRowKey(Borrower borrower) {
+				return String.valueOf(borrower.getIdBorrower());
+			}
+
+			@Override
 			public List<Borrower> load(int offset, int pageSize, Map<String, SortMeta> sortBy,
 					Map<String, FilterMeta> filterBy) {
 
 				filterParams.clear();
-				
+
 				if (borrowerCode != null && borrowerCode.length() > 0) {
 					filterParams.put("borrowerCode", borrowerCode);
 				}
@@ -126,6 +146,19 @@ public class BorrowerListBB implements Serializable {
 
 	public LazyDataModel<Borrower> getLazyBorrowers() {
 		return lazyBorrowers;
+	}
+
+	public Borrower getSelectedBorrower() {
+		return selectedBorrower;
+	}
+
+	public void setSelectedBorrower(Borrower selectedBorrower) {
+		this.selectedBorrower = selectedBorrower;
+	}
+
+	public void onRowSelect(SelectEvent<Borrower> event) {
+		FacesMessage msg = new FacesMessage("Wybrany czytelnik", String.valueOf(event.getObject().getIdBorrower()));
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public List<Borrower> getFullList() {
