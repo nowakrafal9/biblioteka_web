@@ -37,13 +37,6 @@
 			</h:form>
 		</p:panel>
 
-		<p:panel header="Panel administratora" toggleable="true"
-			collapsed="true" rendered="#{remoteClient.isInRole('Administrator')}">
-			
-			Tutaj będzie panel administratora
-
-		</p:panel>
-
 		<p:panel>
 			<div class="card">
 				<h:form id="data-table">
@@ -74,15 +67,6 @@
 							<h:outputText value="#{title.publisher.name}" />
 						</p:column>
 
-						<p:column headerText="Opcje"
-							rendered="#{remoteClient.isInRole('Administrator')}">
-							<p:commandButton value="Edytuj"
-								action="#{titleListBB.editTitle(title)}"
-								style="margin-right: 2px;" />
-							<p:commandButton value="Usuń"
-								action="#{titleListBB.delTitle(title)}" update="@form"
-								style="margin-left: 2px;" />
-						</p:column>
 					</p:dataTable>
 				</h:form>
 			</div>

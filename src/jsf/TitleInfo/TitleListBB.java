@@ -17,10 +17,10 @@ import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 
+import jsf.Author.AuthorListBB;
 import jsf.dao.BookInfoDAO;
-import jsf.dao.BorrowerDAO;
+import jsf.entities.Author;
 import jsf.entities.Bookinfo;
-import jsf.entities.Borrower;
 
 @Named
 @ViewScoped
@@ -30,20 +30,21 @@ public class TitleListBB implements Serializable {
 	private static final String PAGE_STAY_AT_THE_SAME = null;
 	private static final String PAGE_TITLE_EDIT = "/pages/admin/titleEdit?faces-redirect=true";
 
-	String code;
-	String name;
-	String surname;
-	String title;
-	String publisher;
+	private String code;
+	private String name;
+	private String surname;
+	private String title;
+	private String publisher;
 
 	private LazyDataModel<Bookinfo> lazyTitles;
-
+	
 	@Inject
 	ExternalContext externalContext;
 
 	@Inject
 	Flash flash;
-
+	AuthorListBB authorListBB;
+	
 	@EJB
 	BookInfoDAO bookInfoDAO;
 
@@ -59,9 +60,9 @@ public class TitleListBB implements Serializable {
 			@Override
 			public List<Bookinfo> load(int offset, int pageSize, Map<String, SortMeta> sortBy,
 					Map<String, FilterMeta> filterBy) {
-				
+
 				filterParams.clear();
-				
+
 				if (code != null && code.length() > 0) {
 					filterParams.put("code", code);
 				}
@@ -155,4 +156,5 @@ public class TitleListBB implements Serializable {
 
 		return PAGE_STAY_AT_THE_SAME;
 	}
+
 }
