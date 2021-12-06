@@ -15,6 +15,47 @@
 		</p:panel>
 		
 		<p:panel>
+			<div class="card">
+				<h:form id="data-table">
+
+					<p:dataTable var="book" value="#{bookStockListBB.lazyBooks}"
+						paginator="true" rows="10"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						rowsPerPageTemplate="10,25,50" selectionMode="single"
+						selection="#{bookStockListBB.selectedBook}" id="bookTable">
+						<p:ajax event="rowSelect" update="@form:bookDetail"
+							oncomplete="PF('bookDialog').show()" />
+						<p:column headerText="Kod">
+							<h:outputText value="#{book.code}" />
+						</p:column>
+
+						<p:column headerText="Tytuł">
+							<h:outputText value="#{book.bookinfo.title}" />
+						</p:column>
+
+						<p:column headerText="Status">
+							<h:outputText style="vertical-align: middle; margin-left: .5rem"
+								value="#{book.status}" />
+						</p:column>
+
+					</p:dataTable>
+
+					<p:dialog header="Książka" widgetVar="bookDialog"
+						modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+						<p:outputPanel id="bookDetail" style="text-align:center;">
+							<p:panelGrid columns="2"
+								rendered="#{not empty bookStockListBB.selectedBook}"
+								columnClasses="label,value">
+
+								
+							</p:panelGrid>
+						</p:outputPanel>
+					</p:dialog>
+				</h:form>
+			</div>
+		</p:panel>
+		
+		<p:panel>
 			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
 			
 			<h:form>

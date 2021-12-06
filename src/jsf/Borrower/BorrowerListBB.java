@@ -62,7 +62,6 @@ public class BorrowerListBB implements Serializable {
 			public Borrower getRowData(String rowKey) {
 				for (Borrower borrower : borrowers) {
 					if (borrower.getIdBorrower() == Integer.parseInt(rowKey)) {
-						System.out.println(borrower.getName());
 						return borrower;
 					}
 				}
