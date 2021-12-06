@@ -71,8 +71,8 @@
 
 					</p:dataTable>
 
-					<p:dialog header="Tytuł" widgetVar="titleDialog"
-						modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+					<p:dialog header="Tytuł" widgetVar="titleDialog" modal="true"
+						showEffect="fade" hideEffect="fade" resizable="false">
 						<p:outputPanel id="titleDetail" style="text-align:center;">
 							<p:panelGrid columns="2"
 								rendered="#{not empty titleListBB.selectedBook}"
@@ -84,6 +84,19 @@
 								<h:outputText value="Tytuł: " />
 								<h:outputText value="#{titleListBB.selectedBook.title}" />
 
+								<h:outputText value="Autor: " />
+								<h:outputText
+									value="#{titleListBB.selectedBook.author.surname} #{titleListBB.selectedBook.author.name}" />
+
+								<h:outputText value="Gatunek: " />
+								<h:outputText value="#{titleListBB.selectedBook.publisher.name}" />
+
+								<h:outputText value="Ilość stron " />
+								<h:outputText value="#{titleListBB.selectedBook.pages}" />
+
+								<h:outputText value="Wydawnictwo: " />
+								<h:outputText value="#{titleListBB.selectedBook.publisher.name}" />
+								
 							</p:panelGrid>
 						</p:outputPanel>
 					</p:dialog>
