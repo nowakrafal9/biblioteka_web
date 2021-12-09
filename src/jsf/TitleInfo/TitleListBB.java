@@ -17,9 +17,7 @@ import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 
-import jsf.Author.AuthorListBB;
 import jsf.dao.BookInfoDAO;
-import jsf.entities.Author;
 import jsf.entities.Bookinfo;
 
 @Named
@@ -180,4 +178,11 @@ public class TitleListBB implements Serializable {
 		return PAGE_STAY_AT_THE_SAME;
 	}
 
+	public long countBooks(Bookinfo book, String mode) {
+		long count = 0;
+		
+		count = bookInfoDAO.countBooks(book, mode);
+		
+		return count;
+	}
 }
