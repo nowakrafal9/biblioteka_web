@@ -32,14 +32,12 @@
 
 					<h:outputLabel value="Status czytelnika:"
 						rendered="#{remoteClient.isInRole('Administrator')}" />
-					<p:selectOneRadio id="status" value="#{borrowerListBB.status}"
-						unselectable="true"
+					<p:selectOneMenu id="status" value="#{borrowerListBB.status}"
 						rendered="#{remoteClient.isInRole('Administrator')}">
 						<f:selectItem itemLabel="Aktywny" itemValue="1" />
 						<f:selectItem itemLabel="Zablokowany" itemValue="0" />
 						<f:selectItem itemLabel="Wszyscy" itemValue="2" />
-					</p:selectOneRadio>
-
+					</p:selectOneMenu>
 
 					<p:commandButton value="Szukaj" update="data-table" />
 				</h:panelGrid>
@@ -123,10 +121,14 @@
 									action="#{borrowerListBB.editBorrower(borrowerListBB.selectedBorrower)}"
 									style="margin-right: 2px;"
 									rendered="#{remoteClient.isInRole('Administrator')}" />
-								<p:commandButton value="Usuń"
-									action="#{borrowerListBB.delBorrower(borrower)}" update="@form"
-									style="margin-left: 2px;"
-									rendered="#{remoteClient.isInRole('Administrator')}" />
+								<p:commandButton value="Zablokuj"
+									action="#{borrowerListBB.blockBorrower(borrowerListBB.selectedBorrower)}"
+									update="@form" style="margin-left: 2px;"
+									rendered="#{remoteClient.isInRole('Administrator') and (borrowerListBB.selectedBorrower.status == 1)}" />
+								<p:commandButton value="Odblokuj"
+									action="#{borrowerListBB.unblockBorrower(borrowerListBB.selectedBorrower)}"
+									update="@form" style="margin-left: 2px;"
+									rendered="#{remoteClient.isInRole('Administrator') and (borrowerListBB.selectedBorrower.status == 0)}" />
 							</p:panelGrid>
 						</p:outputPanel>
 					</p:dialog>

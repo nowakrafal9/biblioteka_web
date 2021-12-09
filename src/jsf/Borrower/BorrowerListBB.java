@@ -178,8 +178,17 @@ public class BorrowerListBB implements Serializable {
 		return PAGE_PERSON_EDIT;
 	}
 
-	public String delBorrower(Borrower borrower) {
-		borrowerDAO.remove(borrower);
+	public String blockBorrower(Borrower borrower) {
+		borrower.setStatus((byte) 0);
+		borrowerDAO.merge(borrower);
+		
+		return PAGE_STAY_AT_THE_SAME;
+	}
+	
+	public String unblockBorrower(Borrower borrower) {
+		borrower.setStatus((byte) 1);
+		borrowerDAO.merge(borrower);
+
 		return PAGE_STAY_AT_THE_SAME;
 	}
 }
