@@ -29,11 +29,11 @@ public class BookStockListBB implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private static final String PAGE_STAY_AT_THE_SAME = null;
-	private static final String PAGE_PERSON_EDIT = "";
+	private static final String PAGE_BOOK_EDIT = "";
 
 	private String code;
 	private String title;
-	private byte status;
+	private byte status = 0;
 
 	private LazyDataModel<Bookstock> lazyBooks;
 	private Bookstock selectedBook;
@@ -77,6 +77,15 @@ public class BookStockListBB implements Serializable{
 
 				filterParams.clear();
 
+				if (code != null && code.length() > 0) {
+					filterParams.put("code", code);
+				}
+				if (title != null && title.length() > 0) {
+					filterParams.put("title", title);
+				}
+				filterParams.put("status", status);
+				
+				System.out.println(filterParams);
 				books = bookstockDAO.getLazyList(filterParams, offset, pageSize);
 				
 				int rowCount = (int) bookstockDAO.countLazyList(filterParams);

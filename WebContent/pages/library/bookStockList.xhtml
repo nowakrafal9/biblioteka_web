@@ -1,19 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html 
-	xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	
+
 <ui:composition template="/templates/page-template.xhtml">
 	<ui:define name="pageContent">
 		<p:panel>
 			Lista książek
 		</p:panel>
-		
+
+		<p:panel header="Filtr wyszukiwania:" toggleable="true"
+			collapsed="true">
+			<h:form>
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel value="Kod: " />
+					<p:inputText value="#{bookStockListBB.code}" />
+
+					<h:outputLabel value="Tytuł: " />
+					<p:inputText value="#{bookStockListBB.title}" />
+
+					<h:outputLabel value="Status książki: " />
+					<p:selectOneMenu id="status1" value="#{bookStockListBB.status}"
+						rendered="#{remoteClient.isInRole('Administrator')}">
+						<f:selectItem itemLabel="Wszystkie w bibliotece" itemValue="0" />
+						<f:selectItem itemLabel="Niewypożyczone" itemValue="1" />
+						<f:selectItem itemLabel="Wypożyczone" itemValue="2" />
+						<f:selectItem itemLabel="Usunięte" itemValue="3" />
+					</p:selectOneMenu>
+					<p:selectOneMenu id="status2" value="#{bookStockListBB.status}"
+						rendered="#{remoteClient.isInRole('Pracownik')}">
+						<f:selectItem itemLabel="Wszystkie w bibliotece" itemValue="0" />
+						<f:selectItem itemLabel="Niewypożyczone" itemValue="1" />
+						<f:selectItem itemLabel="Wypożyczone" itemValue="2" />
+					</p:selectOneMenu>
+
+					<p:commandButton value="Szukaj" update="data-table" />
+				</h:panelGrid>
+			</h:form>
+		</p:panel>
+
 		<p:panel>
 			<div class="card">
 				<h:form id="data-table">
@@ -34,30 +63,31 @@
 						</p:column>
 
 						<p:column headerText="Status">
-							<h:outputText style="vertical-align: middle; margin-left: .5rem"
-								value="#{book.status}" />
+							<h:outputText value="Usunięta" rendered="#{book.status == 0}" />
+							<h:outputText value="Niewypożyczona" rendered="#{book.status == 1}" />
+							<h:outputText value="Wypożyczona" rendered="#{book.status == 2}" />
 						</p:column>
 
 					</p:dataTable>
 
-					<p:dialog header="Książka" widgetVar="bookDialog"
-						modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+					<p:dialog header="Książka" widgetVar="bookDialog" modal="true"
+						showEffect="fade" hideEffect="fade" resizable="false">
 						<p:outputPanel id="bookDetail" style="text-align:center;">
 							<p:panelGrid columns="2"
 								rendered="#{not empty bookStockListBB.selectedBook}"
 								columnClasses="label,value">
 
-								
+
 							</p:panelGrid>
 						</p:outputPanel>
 					</p:dialog>
 				</h:form>
 			</div>
 		</p:panel>
-		
+
 		<p:panel>
 			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
-			
+
 			<h:form>
 				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
 			</h:form>
