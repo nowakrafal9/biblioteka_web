@@ -116,19 +116,26 @@
 									rendered="#{not empty borrowerListBB.selectedBorrower.email}" />
 								<h:outputText value="#{borrowerListBB.selectedBorrower.email}"
 									rendered="#{not empty borrowerListBB.selectedBorrower.email}" />
+							</p:panelGrid>
+
+							<p:divider rendered="#{remoteClient.isInRole('Administrator')}" />
+
+							<p:panelGrid columns="2"
+								rendered="#{remoteClient.isInRole('Administrator')}"
+								styleClass="ui-noborder" style="margin:auto;">
 
 								<p:commandButton value="Edytuj"
 									action="#{borrowerListBB.editBorrower(borrowerListBB.selectedBorrower)}"
-									style="margin-right: 2px;"
-									rendered="#{remoteClient.isInRole('Administrator')}" />
+									style="margin-right: 2px;" />
 								<p:commandButton value="Zablokuj"
 									action="#{borrowerListBB.blockBorrower(borrowerListBB.selectedBorrower)}"
 									update="@form" style="margin-left: 2px;"
-									rendered="#{remoteClient.isInRole('Administrator') and (borrowerListBB.selectedBorrower.status == 1)}" />
+									rendered="#{borrowerListBB.selectedBorrower.status == 1}" />
 								<p:commandButton value="Odblokuj"
 									action="#{borrowerListBB.unblockBorrower(borrowerListBB.selectedBorrower)}"
 									update="@form" style="margin-left: 2px;"
-									rendered="#{remoteClient.isInRole('Administrator') and (borrowerListBB.selectedBorrower.status == 0)}" />
+									rendered="#{borrowerListBB.selectedBorrower.status == 0}" />
+
 							</p:panelGrid>
 						</p:outputPanel>
 					</p:dialog>

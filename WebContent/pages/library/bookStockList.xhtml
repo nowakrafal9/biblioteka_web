@@ -64,7 +64,8 @@
 
 						<p:column headerText="Status">
 							<h:outputText value="Usunięta" rendered="#{book.status == 0}" />
-							<h:outputText value="Niewypożyczona" rendered="#{book.status == 1}" />
+							<h:outputText value="Niewypożyczona"
+								rendered="#{book.status == 1}" />
 							<h:outputText value="Wypożyczona" rendered="#{book.status == 2}" />
 						</p:column>
 
@@ -77,8 +78,20 @@
 								rendered="#{not empty bookStockListBB.selectedBook}"
 								columnClasses="label,value">
 
+								<h:outputText value="Kod:" />
+								<h:outputText value="#{bookStockListBB.selectedBook.code}" />
+
+								<h:outputText value="Tytuł:" />
+								<h:outputText
+									value="#{bookStockListBB.selectedBook.bookinfo.title}" />
 
 							</p:panelGrid>
+
+							<p:divider rendered="#{bookStockListBB.selectedBook.status == 2}" />
+
+							<h:outputText value="Status wypożyczenia:"
+								rendered="#{bookStockListBB.selectedBook.status == 2}" />
+							
 						</p:outputPanel>
 					</p:dialog>
 				</h:form>

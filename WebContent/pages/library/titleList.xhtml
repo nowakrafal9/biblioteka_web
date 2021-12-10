@@ -96,12 +96,20 @@
 
 								<h:outputText value="Wydawnictwo: " />
 								<h:outputText value="#{titleListBB.selectedBook.publisher.name}" />
-								
+							</p:panelGrid>
+
+							<p:divider />
+
+							<p:panelGrid columns="2"
+								rendered="#{not empty titleListBB.selectedBook}"
+								columnClasses="label,value" style="margin:auto;">
 								<h:outputText value="Ilość egzemplarzy: " />
-								<h:outputText value="#{titleListBB.countBooks(titleListBB.selectedBook, 'all')}" />
-								
+								<h:outputText
+									value="#{titleListBB.countBooks(titleListBB.selectedBook, 'all')}" />
+
 								<h:outputText value="Niewypożyczone egzemplarze: " />
-								<h:outputText value="#{titleListBB.countBooks(titleListBB.selectedBook, 'free') }" />
+								<h:outputText
+									value="#{titleListBB.countBooks(titleListBB.selectedBook, 'free') }" />
 							</p:panelGrid>
 						</p:outputPanel>
 					</p:dialog>
