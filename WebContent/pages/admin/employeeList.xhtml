@@ -1,22 +1,123 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html 
-	xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	
+
 <ui:composition template="/templates/page-template.xhtml">
 	<ui:define name="pageContent">
 		<p:panel>
 			Lista pracowników
 		</p:panel>
-		
+
+		<p:panel header="Filtr wyszukiwania:" toggleable="true"
+			collapsed="true">
+
+			<h:form>
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel value="Login: " />
+					<p:inputText value="#{employeeListBB.login}" />
+
+					<h:outputLabel value="Status konta: " />
+					<p:selectOneMenu id="status" value="#{employeeListBB.status}">
+						<f:selectItem itemLabel="Aktywne" itemValue="1" />
+						<f:selectItem itemLabel="Zablokowane" itemValue="0" />
+						<f:selectItem itemLabel="Wszystkie" itemValue="2" />
+					</p:selectOneMenu>
+
+					<p:commandButton value="Szukaj" update="data-table" />
+				</h:panelGrid>
+			</h:form>
+		</p:panel>
+
+		<p:panel header="Panel administratora" toggleable="true"
+			collapsed="true" rendered="#{remoteClient.isInRole('Administrator')}">
+			<h:form>
+				<p:commandButton value="Dodaj nowe konto"
+					action="#{employeeListBB.newUser()}" />
+			</h:form>
+		</p:panel>
+
+		<p:panel>
+			<div class="card">
+				<h:form id="data-table">
+
+					<p:dataTable var="user" value="#{employeeListBB.lazyUsers}"
+						paginator="true" rows="10"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						rowsPerPageTemplate="10,25,50" selectionMode="single"
+						selection="#{employeeListBB.selectedUser}" id="employeeTable">
+						<p:ajax event="rowSelect" update="@form:employeeDetail"
+							oncomplete="PF('employeeDialog').show()" />
+
+						<p:column headerText="Login:">
+							<h:outputText value="#{user.login}" />
+						</p:column>
+
+						<p:column headerText="Status:">
+							<h:outputText value="Aktywny" rendered="#{user.status == 1}" />
+							<h:outputText value="Zablokowany" rendered="#{user.status == 0}" />
+						</p:column>
+
+					</p:dataTable>
+
+					<p:dialog header="Pracownik" widgetVar="employeeDialog"
+						modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+						<p:outputPanel id="employeeDetail" style="text-align:center;">
+							<p:panelGrid columns="2"
+								rendered="#{not empty employeeListBB.selectedUser}"
+								columnClasses="label,value">
+
+								<h:outputText value="Imię: " />
+								<h:outputText value="#{employeeListBB.selectedUser.name}" />
+
+								<h:outputText value="Nazwisko:  " />
+								<h:outputText value="#{employeeListBB.selectedUser.surname}" />
+
+								<h:outputText value="Login: " />
+								<h:outputText value="#{employeeListBB.selectedUser.name}" />
+
+								<h:outputText value="Rola: " />
+								<h:outputText value="#{employeeListBB.selectedUser.role.name}" />
+
+								<h:outputText value="Status: " />
+								<h:outputText value="Aktywny"
+									rendered="#{employeeListBB.selectedUser.status == 1}" />
+								<h:outputText value="Zablokowany"
+									rendered="#{employeeListBB.selectedUser.status == 0}" />
+
+							</p:panelGrid>
+
+							<p:divider />
+
+							<p:panelGrid columns="2"
+								rendered="#{not empty employeeListBB.selectedUser}"
+								styleClass="ui-noborder" style="margin:auto;">
+
+								<p:commandButton value="Edytuj"
+									action="#{employeeListBB.editUser(employeeListBB.selectedUser)}" />
+								<p:commandButton value="Zablokuj"
+									action="#{employeeListBB.blockUser(employeeListBB.selectedUser)}"
+									update="@form"
+									rendered="#{employeeListBB.selectedUser.status == 1}" />
+								<p:commandButton value="Odblokuj"
+									action="#{employeeListBB.unblockUser(employeeListBB.selectedUser)}"
+									update="@form"
+									rendered="#{employeeListBB.selectedUser.status == 0}" />
+
+							</p:panelGrid>
+						</p:outputPanel>
+					</p:dialog>
+				</h:form>
+			</div>
+		</p:panel>
+
 		<p:panel>
 			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
-			
+
 			<h:form>
 				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
 			</h:form>
