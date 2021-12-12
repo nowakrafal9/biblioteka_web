@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/page-template.xhtml">
+	<ui:define name="pageContent">
+		<p:panel>
+			Wybierz tytuł książki
+		</p:panel>
+
+		<p:panel header="Filtr wyszukiwania:" toggleable="true"
+			collapsed="true">
+
+			<h:form>
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel value="Kod" />
+					<p:inputText value="#{titleListBB.code}" />
+
+					<h:outputLabel value="Imię autora" />
+					<p:inputText value="#{titleListBB.name}" />
+
+					<h:outputLabel value="Nazwisko autora" />
+					<p:inputText value="#{titleListBB.surname}" />
+
+					<h:outputLabel value="Tytuł" />
+					<p:inputText value="#{titleListBB.title}" />
+
+					<h:outputLabel value="Wydwanictwo" />
+					<p:inputText value="#{titleListBB.publisher}" />
+
+					<p:commandButton value="Szukaj" update="data-table" />
+				</h:panelGrid>
+			</h:form>
+
+		</p:panel>
+
+		<p:panel header="Lista tytułów" toggleable="true" collapsed="false">
+			<div class="card">
+				<h:form id="data-table">
+
+					<p:dataTable var="title" value="#{titleListBB.lazyTitles}"
+						paginator="true" rows="10"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						rowsPerPageTemplate="10,25,50" id="borrowerTable">
+
+						<p:column headerText="Kod">
+							<h:outputText value="#{title.code}" />
+						</p:column>
+
+						<p:column headerText="Autor">
+							<h:outputText
+								value="#{title.author.surname} #{title.author.name}" />
+						</p:column>
+
+						<p:column headerText="Tytuł">
+							<h:outputText value="#{title.title}" />
+						</p:column>
+
+						<p:column headerText="Gatunek">
+							<h:outputText value="#{title.genre.name}" />
+						</p:column>
+
+						<p:column headerText="Wydawnictwo">
+							<h:outputText value="#{title.publisher.name}" />
+						</p:column>
+
+					</p:dataTable>
+
+
+				</h:form>
+			</div>
+		</p:panel>
+
+		<p:panel header="Dodaj książki" toggleable="true" collapsed="false">
+			<h:form id="add-book">
+				<h:panelGrid columns="3" cellpadding="5"
+					rendered="#{(bookStockEditBB.searched == false)}">
+					<h:outputText value="Kod tytułu: " />
+					<p:inputText id="code" value="#{bookStockEditBB.titleCode}"
+						required="true" requiredMessage="Podaj kod" />
+					<p:message for="code" />
+
+					<h:outputText value="Podaj ilość egzemplarzy: " />
+					<p:selectOneMenu id="amount"
+						value="#{bookStockEditBB.codesToGenerate}">
+						<f:selectItem itemLabel="1" itemValue="1" />
+						<f:selectItem itemLabel="2" itemValue="2" />
+						<f:selectItem itemLabel="3" itemValue="3" />
+						<f:selectItem itemLabel="4" itemValue="4" />
+						<f:selectItem itemLabel="5" itemValue="5" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+
+				<h:outputText value="Nie znaleziono tytułu"
+					rendered="#{(bookStockEditBB.searched == true) and (bookStockEditBB.foundTitle == false) }" />
+				<h:outputText value="Pomyślnie wygenerowano kody"
+					rendered="#{(bookStockEditBB.searched == true) and (bookStockEditBB.foundTitle == true) }" />
+
+				<p:dataTable var="code" value="#{bookStockEditBB.codes}"
+					style="margin-top: 20px"
+					rendered="#{(bookStockEditBB.searched == true) and (bookStockEditBB.foundTitle == true) }">
+					<p:column headerText="Kod">
+						<h:outputText value="#{code}" />
+					</p:column>
+					<p:column headerText="Tytuł">
+						<h:outputText value="-Tytuł książki-" />
+					</p:column>
+				</p:dataTable>
+
+				<br />
+				<p:commandButton value="Generuj kody" update="add-book"
+					action="#{bookStockEditBB.generateCodes()}"
+					rendered="#{bookStockEditBB.searched == false}" />
+
+				<p:commandButton value="Cofnij" update="add-book"
+					action="#{bookStockEditBB.undoSearch()}"
+					rendered="#{(bookStockEditBB.searched == true) and (bookStockEditBB.foundTitle == false)}" />
+
+				<h:panelGrid columns="2" cellpadding="5"
+					rendered="#{(bookStockEditBB.searched == true) and (bookStockEditBB.foundTitle == true)}">
+					<p:commandButton value="Dodaj książki do bazy"
+						action="#{bookStockEditBB.saveData()}" />
+
+					<p:commandButton value="Cofnij" update="add-book"
+						action="#{bookStockEditBB.undoSearch()}" />
+				</h:panelGrid>
+
+			</h:form>
+		</p:panel>
+
+		<p:panel>
+			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
+
+			<h:form>
+				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>
+

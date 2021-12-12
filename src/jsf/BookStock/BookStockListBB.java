@@ -29,7 +29,6 @@ public class BookStockListBB implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private static final String PAGE_STAY_AT_THE_SAME = null;
-	private static final String PAGE_BOOK_EDIT = "";
 
 	private String code;
 	private String title;
@@ -139,5 +138,5 @@ public class BookStockListBB implements Serializable{
 	
 	public List<Bookstock> getFullList(){
 		return bookstockDAO.getFullList();
-	}
+	}	
 }
