@@ -25,15 +25,6 @@
 				<h:form rendered="#{borrowerEditBB.borrower != null}">
 					<h:panelGrid columns="3" cellpadding="5">
 
-						<h:outputLabel for="libraryCode" value="Kod czytelnika:" />
-						<p:inputText id="libraryCode"
-							value="#{borrowerEditBB.borrower.borrowerCode}" required="true"
-							requiredMessage="Podaj kod czyelnika"
-							validatorMessage="Co najwyżej 6 znaków">
-							<f:validateLength maximum="6" />
-						</p:inputText>
-						<p:message for="libraryCode" />
-
 						<h:outputLabel for="name" value="Imię:" />
 						<p:inputText id="name" value="#{borrowerEditBB.borrower.name}"
 							required="true" requiredMessage="Podaj imię"
@@ -80,21 +71,19 @@
 						<h:outputLabel for="phoneNum" value="Numer telefonu" />
 						<p:inputText id="phoneNum"
 							value="#{borrowerEditBB.borrower.phoneNum}" required="true"
-							requiredMessage="podaj nazwisko"
+							requiredMessage="Podaj nazwisko"
 							validatorMessage="Co najwyżej 13 znaków">
 							<f:validateLength maximum="13" />
 						</p:inputText>
 						<p:message for="phoneNum" />
 
 						<h:outputLabel value="Status czytelnika:" />
-						<p:selectOneRadio id="status" value="#{borrowerEditBB.borrower.status}"
-							unselectable="true">
+						<p:selectOneRadio id="status"
+							value="#{borrowerEditBB.borrower.status}" unselectable="true">
 							<f:selectItem itemLabel="Aktywny" itemValue="1" />
 							<f:selectItem itemLabel="Zablokowany" itemValue="0" />
 						</p:selectOneRadio>
 					</h:panelGrid>
-
-					<p:messages id="msgs" />
 
 					<p:commandButton value="Zapisz"
 						action="#{borrowerEditBB.saveData()}" style="margin-right: 1em;"

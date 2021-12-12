@@ -2,6 +2,7 @@ package jsf.Borrower;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Random;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -10,6 +11,7 @@ import javax.faces.context.Flash;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Query;
 
 import jsf.dao.BorrowerDAO;
 import jsf.entities.Borrower;
@@ -55,6 +57,7 @@ public class BorrowerEditBB implements Serializable {
 
 		try {
 			if (borrower.getIdBorrower() == null) {
+				borrower.setBorrowerCode((String) this.generateCode());
 				borrowerDAO.create(borrower);
 			} else {
 				borrowerDAO.merge(borrower);
@@ -66,5 +69,20 @@ public class BorrowerEditBB implements Serializable {
 		}
 
 		return PAGE_BORROWER_LIST;
+	}
+	
+	private String generateCode() {
+		Random rand = new Random();
+		
+		String borrowerCode = "";
+		boolean exists = true;
+		
+		while (exists) {
+			borrowerCode = String.valueOf(rand.nextInt((99999-10000)+1) + 10000);			
+			
+			exists = borrowerDAO.checkExist(borrowerCode);
+		}
+		
+		return borrowerCode;
 	}
 }
