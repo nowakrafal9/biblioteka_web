@@ -25,57 +25,64 @@
 				<h:form rendered="#{borrowerEditBB.borrower != null}">
 					<h:panelGrid columns="3" cellpadding="5">
 
-						<h:outputLabel for="name" value="Imię:" />
+						<h:outputLabel for="name" value="*Imię:" />
 						<p:inputText id="name" value="#{borrowerEditBB.borrower.name}"
 							required="true" requiredMessage="Podaj imię"
-							validatorMessage="Co najwyżej 50 znaków">
-							<f:validateLength maximum="50" />
+							validatorMessage="Nieprawidłowy format danych">
+							<f:validateRegex pattern="^[A-Z][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{2,49}$" />
 						</p:inputText>
 						<p:message for="name" />
 
-						<h:outputLabel for="surname" value="Nazwisko:" />
+						<h:outputLabel for="surname" value="*Nazwisko:" />
 						<p:inputText id="surname"
 							value="#{borrowerEditBB.borrower.surname}" required="true"
 							requiredMessage="Podaj Nazwisko"
-							validatorMessage="Co najwyżej 50 znaków">
-							<f:validateLength maximum="50" />
+							validatorMessage="Nieprawidłowy format danych">
+							<f:validateRegex pattern="^[A-Z][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{2,49}$" />
 						</p:inputText>
 						<p:message for="surname" />
 
-						<h:outputLabel for="city" value="Miasto" />
+						<h:outputLabel for="city" value="*Miasto" />
 						<p:inputText id="city" value="#{borrowerEditBB.borrower.city}"
 							required="true" requiredMessage="Podaj miasto"
-							validatorMessage="Co najwyżej 50 znaków">
-							<f:validateLength maximum="50" />
+							validatorMessage="Nieprawidłowy format danych">
+							<f:validateRegex pattern="^[A-Z][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{3,49}$" />
 						</p:inputText>
 						<p:message for="city" />
 
-						<h:outputLabel for="postalCode" value="Kod pocztowy:" />
+						<h:outputLabel for="postalCode" value="*Kod pocztowy:" />
 						<p:inputText id="postalCode"
 							value="#{borrowerEditBB.borrower.postalCode}" required="true"
 							requiredMessage="Podaj kod pocztowy"
-							validatorMessage="Co najwyżej 6 znaków">
-							<f:validateLength maximum="6" />
+							validatorMessage="Nieprawidłowy format danych (xx-xxx)">
+							<f:validateRegex pattern="^\d{2}-\d{3}$" />
 						</p:inputText>
 						<p:message for="postalCode" />
 
-						<h:outputLabel for="address" value="Adres zamieszkania:" />
+						<h:outputLabel for="address" value="*Adres zamieszkania:" />
 						<p:inputText id="address"
 							value="#{borrowerEditBB.borrower.address}" required="true"
 							requiredMessage="Podaj adres"
-							validatorMessage="Co najwyżej 100 znaków">
-							<f:validateLength maximum="100" />
+							validatorMessage="Nieprawidłowy format danych(ul. Powstańców 2/4)">
+							<f:validateRegex pattern="^ul[\x2e][\x20][A-Z][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ0-9\x20\x2F.-]{0,95}$" />
 						</p:inputText>
 						<p:message for="address" />
 
-						<h:outputLabel for="phoneNum" value="Numer telefonu" />
+						<h:outputLabel for="phoneNum" value="*Numer telefonu" />
 						<p:inputText id="phoneNum"
 							value="#{borrowerEditBB.borrower.phoneNum}" required="true"
-							requiredMessage="Podaj nazwisko"
-							validatorMessage="Co najwyżej 13 znaków">
-							<f:validateLength maximum="13" />
+							requiredMessage="Podaj numer"
+							validatorMessage="Nieprawidłowy format danych (+xx xxxxxxxxx)">
+							<f:validateRegex pattern="^[\x2B]\d{2}[\x20]\d{9}$" />
 						</p:inputText>
 						<p:message for="phoneNum" />
+
+						<h:outputLabel for="email" value="Adres email" />
+						<p:inputText id="email" value="#{borrowerEditBB.borrower.email}"
+							required="false" validatorMessage="Co najwyżej 40 znaków">
+							<f:validateLength maximum="40" />
+						</p:inputText>
+						<p:message for="email" />
 
 						<h:outputLabel value="Status czytelnika:" />
 						<p:selectOneRadio id="status"
@@ -84,6 +91,10 @@
 							<f:selectItem itemLabel="Zablokowany" itemValue="0" />
 						</p:selectOneRadio>
 					</h:panelGrid>
+
+					<h:outputText value="* - pola wymagane" />
+
+					<p:divider />
 
 					<p:commandButton value="Zapisz"
 						action="#{borrowerEditBB.saveData()}" style="margin-right: 1em;"

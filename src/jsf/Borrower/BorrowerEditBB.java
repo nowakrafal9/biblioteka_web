@@ -54,7 +54,11 @@ public class BorrowerEditBB implements Serializable {
 		if (loaded == null) {
 			return PAGE_STAY_AT_THE_SAME;
 		}
-
+		
+		if (borrower.getEmail().length() == 0) {
+			borrower.setEmail(null);
+		}
+		
 		try {
 			if (borrower.getIdBorrower() == null) {
 				borrower.setBorrowerCode((String) this.generateCode());

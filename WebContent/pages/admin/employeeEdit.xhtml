@@ -28,16 +28,18 @@
 						<h:outputLabel for="name" value="Imię: " />
 						<p:inputText id="name" value="#{employeeEditBB.user.name}"
 							required="true" requiredMessage="Podaj imię"
-							validatorMessage="Imię musi mieć pomiędzy 3 a 45 znaków">
-							<f:validateLength minimum="3" maximum="45" />
+							validatorMessage="Nieprawidłowy format danych">
+							<f:validateRegex
+								pattern="^[A-Z][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{2,49}$" />
 						</p:inputText>
 						<p:message for="name" />
 
 						<h:outputLabel for="surname" value="Nazwisko: " />
 						<p:inputText id="surname" value="#{employeeEditBB.user.surname}"
 							required="true" requiredMessage="Podaj imię"
-							validatorMessage="Nazwisko musi mieć pomiędzy 3 a 45 znaków">
-							<f:validateLength minimum="3" maximum="45" />
+							validatorMessage="Nieprawidłowy format danych">
+							<f:validateRegex
+								pattern="^[A-Z][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{2,49}$" />
 						</p:inputText>
 						<p:message for="surname" />
 
@@ -54,7 +56,9 @@
 						<h:outputLabel for="pass" value="Hasło: "
 							rendered="#{employeeEditBB.user.idUser == null}" />
 						<p:inputText id="pass" value="#{employeeEditBB.newPass}"
-							required="false">
+							required="false"
+							validatorMessage="Hasło musi mieć pomiędzy conajwyżej 20 znaków">
+							<f:validateLength maximum="20" />
 						</p:inputText>
 						<p:message for="pass" />
 
@@ -66,8 +70,6 @@
 						<p:message for="status" />
 
 					</h:panelGrid>
-
-					<p:messages id="msgs" />
 
 					<p:commandButton value="Zapisz"
 						action="#{employeeEditBB.saveData()}" style="margin-right: 1em;"
