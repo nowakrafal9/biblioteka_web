@@ -1,22 +1,142 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html 
-	xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	
+
 <ui:composition template="/templates/page-template.xhtml">
 	<ui:define name="pageContent">
 		<p:panel>
 			Lista wypożyczonych książek
 		</p:panel>
-		
+
+		<p:panel header="Filtr wyszukiwania:" toggleable="true"
+			collapsed="true">
+
+			<h:form>
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel value="Kod książki" />
+					<p:inputText value="#{borrowedListBB.bookCode}" />
+
+					<h:outputLabel value="Kod czytelnika" />
+					<p:inputText value="#{borrowedListBB.borrowerCode}" />
+
+					<h:outputLabel value="Status wypożyczenia" />
+					<p:selectOneMenu id="status" value="#{borrowedListBB.returnStatus}">
+						<f:selectItem itemLabel="Wszystkie książki" itemValue="0" />
+						<f:selectItem itemLabel="W terminie" itemValue="1" />
+						<f:selectItem itemLabel="Po terminie" itemValue="2" />
+					</p:selectOneMenu>
+
+					<p:commandButton value="Szukaj" update="data-table" />
+				</h:panelGrid>
+			</h:form>
+
+		</p:panel>
+
+		<p:panel>
+			<div class="card">
+				<h:form id="data-table">
+
+					<p:dataTable var="borrow" value="#{borrowedListBB.lazyBorrows}"
+						paginator="true" rows="10"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						rowsPerPageTemplate="10,25,50" selectionMode="single"
+						selection="#{borrowedListBB.selectedBorrow}" id="borrowTable">
+						<p:ajax event="rowSelect" update="@form:borrowDetail"
+							oncomplete="PF('borrowDialog').show()" />
+
+						<p:column headerText="Kod książki">
+							<h:outputText value="#{borrow.bookstock.code}"
+								rendered="#{not borrowedListBB.compareDate(borrow.returnDue)}" />
+							<h:outputText value="#{borrow.bookstock.code}" style="color:red"
+								rendered="#{borrowedListBB.compareDate(borrow.returnDue)}" />
+						</p:column>
+
+						<p:column headerText="Kod czytelnika">
+							<h:outputText value="#{borrow.borrower.borrowerCode}"
+								rendered="#{not borrowedListBB.compareDate(borrow.returnDue)}" />
+							<h:outputText value="#{borrow.borrower.borrowerCode}"
+								style="color:red"
+								rendered="#{borrowedListBB.compareDate(borrow.returnDue)}" />
+						</p:column>
+
+						<p:column headerText="Data wypożyczenia">
+							<h:outputText
+								value="#{borrowedListBB.formatDate(borrow.borrowDate)}"
+								rendered="#{not borrowedListBB.compareDate(borrow.returnDue)}" />
+							<h:outputText
+								value="#{borrowedListBB.formatDate(borrow.borrowDate)}"
+								style="color:red"
+								rendered="#{borrowedListBB.compareDate(borrow.returnDue)}" />
+						</p:column>
+
+						<p:column headerText="Data zwrotu">
+							<h:outputText
+								value="#{borrowedListBB.formatDate(borrow.returnDue)}"
+								rendered="#{not borrowedListBB.compareDate(borrow.returnDue)}" />
+							<h:outputText
+								value="#{borrowedListBB.formatDate(borrow.returnDue)}"
+								style="color:red"
+								rendered="#{borrowedListBB.compareDate(borrow.returnDue)}" />
+						</p:column>
+
+						<p:column headerText="">
+							<h:outputText value="Po terminie!" style="color:red;"
+								rendered="#{borrowedListBB.compareDate(borrow.returnDue)}" />
+						</p:column>
+
+					</p:dataTable>
+
+					<p:dialog header="Wypożyczenie" widgetVar="borrowDialog"
+						modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+						<p:outputPanel id="borrowDetail" style="text-align:center;">
+							<p:panelGrid columns="2"
+								rendered="#{not empty borrowedListBB.selectedBorrow}"
+								columnClasses="label,value">
+
+								<h:outputText value="Kod książki: " />
+								<h:outputText
+									value="#{borrowedListBB.selectedBorrow.bookstock.code}" />
+
+								<h:outputText value="Tytuł książki: " />
+								<h:outputText
+									value="#{borrowedListBB.selectedBorrow.bookstock.bookinfo.title}" />
+
+								<h:outputText value="Wydawnictwo: " />
+								<h:outputText
+									value="#{borrowedListBB.selectedBorrow.bookstock.bookinfo.publisher.name}" />
+
+								<h:outputText value=" " />
+								<h:outputText value=" " />
+
+								<h:outputText value="Kod czytelnika: " />
+								<h:outputText
+									value="#{borrowedListBB.selectedBorrow.borrower.borrowerCode}" />
+
+								<h:outputText value="Czytelnik: " />
+								<h:outputText
+									value="#{borrowedListBB.selectedBorrow.borrower.name} #{borrowedListBB.selectedBorrow.borrower.surname}" />
+
+								<h:outputText value=" " />
+								<h:outputText value=" " />
+								
+								<h:outputText value="Termin zwrotu:" />
+								<h:outputText value="#{borrowedListBB.formatDate(borrowedListBB.selectedBorrow.returnDue)}" />
+							</p:panelGrid>
+						</p:outputPanel>
+					</p:dialog>
+
+				</h:form>
+			</div>
+		</p:panel>
+
 		<p:panel>
 			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
-			
+
 			<h:form>
 				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
 			</h:form>
