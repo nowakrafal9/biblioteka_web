@@ -49,7 +49,7 @@
 			<h:link outcome="/pages/admin/bookStockEdit">
 				<p:button value="Dodaj nową książkę" />
 			</h:link>
-			
+
 		</p:panel>
 
 		<p:panel>
@@ -96,8 +96,16 @@
 
 							</p:panelGrid>
 
-							<p:divider rendered="#{bookStockListBB.selectedBook.status == 2}" />
+							<p:divider rendered="#{(bookStockListBB.selectedBook.status == 2) or (remoteClient.isInRole('Administrator'))}"/>
 
+							<p:commandButton value="Usuń książkę"
+								action="#{bookStockListBB.removeBook(bookStockListBB.selectedBook)}"
+								update="@form" style="margin-left: 2px;"
+								rendered="#{(bookStockListBB.selectedBook.status == 1) and (remoteClient.isInRole('Administrator'))}" />
+							<p:commandButton value="Przywróć książkę"
+								action="#{bookStockListBB.restoreBook(bookStockListBB.selectedBook)}"
+								update="@form" style="margin-left: 2px;"
+								rendered="#{(bookStockListBB.selectedBook.status == 0) and (remoteClient.isInRole('Administrator'))}" />
 							<h:outputText value="Status wypożyczenia:"
 								rendered="#{bookStockListBB.selectedBook.status == 2}" />
 

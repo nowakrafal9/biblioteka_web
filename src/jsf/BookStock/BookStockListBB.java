@@ -139,4 +139,19 @@ public class BookStockListBB implements Serializable{
 	public List<Bookstock> getFullList(){
 		return bookstockDAO.getFullList();
 	}	
+	
+	public String removeBook(Bookstock book) {
+		book.setStatus((byte) 0);
+		bookstockDAO.merge(book);
+		
+		return PAGE_STAY_AT_THE_SAME;
+	}
+	
+	public String restoreBook(Bookstock book) {
+		book.setStatus((byte) 1);
+		bookstockDAO.merge(book);
+		
+		return PAGE_STAY_AT_THE_SAME;
+	}
+	
 }
