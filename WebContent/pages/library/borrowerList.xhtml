@@ -63,6 +63,7 @@
 						selection="#{borrowerListBB.selectedBorrower}" id="borrowerTable">
 						<p:ajax event="rowSelect" update="@form:borrowerDetail"
 							oncomplete="PF('borrowerDialog').show()" />
+
 						<p:column headerText="Kod">
 							<h:outputText value="#{borrower.borrowerCode}" />
 						</p:column>
@@ -98,6 +99,9 @@
 								<h:outputText value="Nazwisko: " />
 								<h:outputText value="#{borrowerListBB.selectedBorrower.surname}" />
 
+								<h:outputText value=" " />
+								<h:outputText value=" " />
+
 								<h:outputText value="Miasto: " />
 								<h:outputText value="#{borrowerListBB.selectedBorrower.city}" />
 
@@ -108,6 +112,9 @@
 								<h:outputText value="Adres:  " />
 								<h:outputText value="#{borrowerListBB.selectedBorrower.address}" />
 
+								<h:outputText value=" " />
+								<h:outputText value=" " />
+
 								<h:outputText value="Nr telefonu:  " />
 								<h:outputText
 									value="#{borrowerListBB.selectedBorrower.phoneNum}" />
@@ -116,6 +123,12 @@
 									rendered="#{not empty borrowerListBB.selectedBorrower.email}" />
 								<h:outputText value="#{borrowerListBB.selectedBorrower.email}"
 									rendered="#{not empty borrowerListBB.selectedBorrower.email}" />
+
+								<h:outputText value=" " />
+								<h:outputText value=" " />
+
+								<h:outputText value="Ilość wypożyczonych książek:" />
+								<h:outputText value="#{borrowerListBB.countBooks(borrowerListBB.selectedBorrower)}" />
 							</p:panelGrid>
 
 							<p:divider rendered="#{remoteClient.isInRole('Administrator')}" />

@@ -20,6 +20,7 @@ import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 
+import jsf.dao.BorrowedDAO;
 import jsf.dao.BorrowerDAO;
 import jsf.entities.Borrower;
 
@@ -48,7 +49,10 @@ public class BorrowerListBB implements Serializable {
 
 	@EJB
 	BorrowerDAO borrowerDAO;
-
+	
+	@EJB
+	BorrowedDAO borrowedDAO;
+	
 	@PostConstruct
 	public void init() {
 		lazyBorrowers = new LazyDataModel<Borrower>() {
@@ -164,6 +168,14 @@ public class BorrowerListBB implements Serializable {
 		return borrowerDAO.getFullList();
 	}
 
+	public long countBooks(Borrower borrower) {
+		long count = 0;
+		
+		count = borrowedDAO.countBorrowedBooks(borrower);
+		
+		return count;
+	}
+	
 	public String editBorrower(Borrower borrower) {
 		flash.put("borrower", borrower);
 
