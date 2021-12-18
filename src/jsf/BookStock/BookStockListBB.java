@@ -21,11 +21,13 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 
 import jsf.dao.BookstockDAO;
+import jsf.dao.BorrowedDAO;
 import jsf.entities.Bookstock;
+import jsf.entities.Borrowed;
 
 @Named
 @ViewScoped
-public class BookStockListBB implements Serializable{
+public class BookStockListBB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static final String PAGE_STAY_AT_THE_SAME = null;
@@ -46,6 +48,9 @@ public class BookStockListBB implements Serializable{
 	@EJB
 	BookstockDAO bookstockDAO;
 
+	@EJB
+	BorrowedDAO borrowedDAO;
+	
 	@PostConstruct
 	public void init() {
 		lazyBooks = new LazyDataModel<Bookstock>() {
@@ -83,10 +88,10 @@ public class BookStockListBB implements Serializable{
 					filterParams.put("title", title);
 				}
 				filterParams.put("status", status);
-				
+
 				System.out.println(filterParams);
 				books = bookstockDAO.getLazyList(filterParams, offset, pageSize);
-				
+
 				int rowCount = (int) bookstockDAO.countLazyList(filterParams);
 				setRowCount(rowCount);
 
@@ -130,28 +135,32 @@ public class BookStockListBB implements Serializable{
 	public void setSelectedBook(Bookstock selectedBook) {
 		this.selectedBook = selectedBook;
 	}
-	
+
 	public void onRowSelect(SelectEvent<Bookstock> event) {
 		FacesMessage msg = new FacesMessage("Wybrana książka", String.valueOf(event.getObject().getIdBook()));
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
-	
-	public List<Bookstock> getFullList(){
+
+	public List<Bookstock> getFullList() {
 		return bookstockDAO.getFullList();
-	}	
-	
+	}
+
+	public List<Borrowed> getBorrowInfo(Bookstock book) {
+		return borrowedDAO.getBorrowInfo(book);
+	}
+
 	public String removeBook(Bookstock book) {
 		book.setStatus((byte) 0);
 		bookstockDAO.merge(book);
-		
+
 		return PAGE_STAY_AT_THE_SAME;
 	}
-	
+
 	public String restoreBook(Bookstock book) {
 		book.setStatus((byte) 1);
 		bookstockDAO.merge(book);
-		
+
 		return PAGE_STAY_AT_THE_SAME;
 	}
-	
+
 }

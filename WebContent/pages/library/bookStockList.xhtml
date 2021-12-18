@@ -96,7 +96,8 @@
 
 							</p:panelGrid>
 
-							<p:divider rendered="#{(bookStockListBB.selectedBook.status == 2) or (remoteClient.isInRole('Administrator'))}"/>
+							<p:divider
+								rendered="#{(bookStockListBB.selectedBook.status == 2) or (remoteClient.isInRole('Administrator'))}" />
 
 							<p:commandButton value="Usuń książkę"
 								action="#{bookStockListBB.removeBook(bookStockListBB.selectedBook)}"
@@ -106,9 +107,27 @@
 								action="#{bookStockListBB.restoreBook(bookStockListBB.selectedBook)}"
 								update="@form" style="margin-left: 2px;"
 								rendered="#{(bookStockListBB.selectedBook.status == 0) and (remoteClient.isInRole('Administrator'))}" />
+
 							<h:outputText value="Status wypożyczenia:"
 								rendered="#{bookStockListBB.selectedBook.status == 2}" />
-
+							<ui:repeat var="borrow"
+								value="#{bookStockListBB.getBorrowInfo(bookStockListBB.selectedBook)}"
+								rendered="#{(not empty bookStockListBB.selectedBook) and (bookStockListBB.selectedBook.status == 2)}"
+								style="margin:auto">
+								<p:panelGrid columns="2" style="border:1px solid black;">
+									<h:outputText value="Kod czytelnika: " />
+									<h:outputText value="#{borrow.borrower.borrowerCode}" />
+									
+									<h:outputText value="Dane czytelnika: " />
+									<h:outputText value="#{borrow.borrower.name} #{borrow.borrower.surname}" />
+									
+									<h:outputText value="Data wypożyczenia: " />
+									<h:outputText value="#{borrow.borrowDate}" />
+									
+									<h:outputText value="Data zwrotu: " />
+									<h:outputText value="#{borrow.returnDue}" />
+								</p:panelGrid>
+							</ui:repeat>					
 						</p:outputPanel>
 					</p:dialog>
 				</h:form>
