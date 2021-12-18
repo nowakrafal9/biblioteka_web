@@ -37,6 +37,12 @@
 
 		</p:panel>
 
+		<p:panel header="Panel pracownika" toggleable="true" collapsed="true">
+			<h:link outcome="/pages/library/borrowedAdd">
+				<p:button value="Wypożycz książkę" />
+			</h:link>
+		</p:panel>
+
 		<p:panel>
 			<div class="card">
 				<h:form id="data-table">
@@ -123,10 +129,16 @@
 
 								<h:outputText value=" " />
 								<h:outputText value=" " />
-								
+
 								<h:outputText value="Termin zwrotu:" />
-								<h:outputText value="#{borrowedListBB.formatDate(borrowedListBB.selectedBorrow.returnDue)}" />
+								<h:outputText
+									value="#{borrowedListBB.formatDate(borrowedListBB.selectedBorrow.returnDue)}" />
 							</p:panelGrid>
+
+							<p:commandButton value="Zwróć książkę"
+								action="#{borrowedListBB.returnBook(borrowedListBB.selectedBorrow)}"
+								update="@form" style="margin-top: 20px"
+								rendered="#{borrowedListBB.selectedBorrow.status == 1}" />
 						</p:outputPanel>
 					</p:dialog>
 

@@ -21,7 +21,9 @@ import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 
+import jsf.dao.BookstockDAO;
 import jsf.dao.BorrowedDAO;
+import jsf.entities.Bookstock;
 import jsf.entities.Borrowed;
 
 @Named
@@ -50,6 +52,9 @@ public class BorrowedListBB implements Serializable {
 	@EJB
 	BorrowedDAO borrowedDAO;
 
+	@EJB
+	BookstockDAO bookstockDAO;
+	
 	@PostConstruct
 	public void init() {		
 		lazyBorrows = new LazyDataModel<Borrowed>() {
@@ -163,26 +168,17 @@ public class BorrowedListBB implements Serializable {
 		return false;
 	}
 	
-//	public String addBookTest() {
-//		Borrowed test = new Borrowed();
-//		Bookstock bookstock = new Bookstock();
-//		Borrower borrower = new Borrower();
-//		User user = new User();
-//		
-//		bookstock.setIdBook(4);
-//		borrower.setIdBorrower(11);
-//		user.setIdUser(2);
-//		
-//		test.setBookstock(bookstock);
-//		test.setBorrower(borrower);
-//		test.setUser(user);
-//		test.setBorrowDate(java.sql.Date.valueOf(java.time.LocalDate.now()));
-//		test.setReturnDue(java.sql.Date.valueOf(java.time.LocalDate.now().plusMonths(1)));
-//		test.setReturnDate(null);
-//		test.setStatus((byte) 1);
-//		
-//		borrowedDAO.create(test);
-//		
-//		return PAGE_STAY_AT_THE_SAME;
-//	}
+	public String returnBook(Borrowed borrowed) {
+		Bookstock book = bookstockDAO.find(borrowed.getBookstock().getIdBook());
+		
+		book.setStatus((byte) 1);
+		
+		borrowed.setStatus((byte) 0);
+		borrowed.setReturnDate(todayDate);
+		
+		borrowedDAO.merge(borrowed);
+		bookstockDAO.merge(book);
+		
+		return PAGE_STAY_AT_THE_SAME;
+	}
 }

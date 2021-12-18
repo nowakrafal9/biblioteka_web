@@ -25,7 +25,6 @@ public class BookStockEditBB implements Serializable {
 	private static final String PAGE_STAY_AT_THE_SAME = null;
 
 	private String titleCode;
-	private int idTitle;
 	private int codesToGenerate = 1;
 	private boolean searched = false;
 	private boolean foundTitle = false;
