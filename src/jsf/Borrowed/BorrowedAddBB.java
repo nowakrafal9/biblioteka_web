@@ -10,6 +10,7 @@ import javax.inject.Named;
 import jsf.dao.BookstockDAO;
 import jsf.dao.BorrowedDAO;
 import jsf.dao.BorrowerDAO;
+import jsf.dao.UserDAO;
 import jsf.entities.Bookstock;
 import jsf.entities.Borrowed;
 import jsf.entities.Borrower;
@@ -24,6 +25,7 @@ public class BorrowedAddBB implements Serializable {
 
 	private String bookCode;
 	private String borrowerCode;
+	private String login;
 	private int borrowTime = 0;
 	private boolean searched = false;
 	private boolean foundBook = false;
@@ -35,6 +37,8 @@ public class BorrowedAddBB implements Serializable {
 	BorrowerDAO borrowerDAO;
 	@EJB
 	BorrowedDAO borrowedDAO;
+	@EJB
+	UserDAO userDAO;
 	
 	public String getBookCode() {
 		return bookCode;
@@ -50,6 +54,14 @@ public class BorrowedAddBB implements Serializable {
 
 	public void setBorrowerCode(String borrowerCode) {
 		this.borrowerCode = borrowerCode;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	public int getBorrowTime() {
@@ -76,7 +88,7 @@ public class BorrowedAddBB implements Serializable {
 		searched = true;
 		foundBook = bookstockDAO.checkExist(bookCode);
 		foundBorrower = borrowerDAO.checkExist(borrowerCode);
-
+		System.out.println(login);
 		return PAGE_STAY_AT_THE_SAME;
 	}
 
@@ -91,7 +103,7 @@ public class BorrowedAddBB implements Serializable {
 	public String borrowBook() {		
 		Bookstock book = bookstockDAO.find(bookstockDAO.getBookID(bookCode));
 		Borrower borrower = borrowerDAO.find(borrowerDAO.getBorrowerID(borrowerCode));
-		User user = new User();
+		User user = userDAO.find(userDAO.getUserID(login));
 		Borrowed borrowedBook = new Borrowed();
 		
 		Date today = java.sql.Date.valueOf(java.time.LocalDate.now());
@@ -104,9 +116,7 @@ public class BorrowedAddBB implements Serializable {
 		} else if (borrowTime == 2) {
 			returnDate = java.sql.Date.valueOf(java.time.LocalDate.now().plusMonths(2));
 		}
-		
-		user.setIdUser(2); // Dodać sczytanie ID zalogowanego użytkownika
-		
+				
 		borrowedBook.setBookstock(book);
 		borrowedBook.setBorrower(borrower);
 		borrowedBook.setUser(user);
@@ -122,7 +132,5 @@ public class BorrowedAddBB implements Serializable {
 		
 		return PAGE_BORROWED_LIST;
 	}
-	
-	
 }
 

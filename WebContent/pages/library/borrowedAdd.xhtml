@@ -37,6 +37,7 @@
 						<f:selectItem itemLabel="2 miesiące" itemValue="2" />
 					</p:selectOneMenu>
 
+					<h:outputText value="#{borrowedAddBB.setLogin(remoteClient.details.login)}" id="login" />
 				</h:panelGrid>
 
 				<p:commandButton value="Sprawdź dane" update="add-borrow"
