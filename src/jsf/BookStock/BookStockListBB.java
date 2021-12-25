@@ -35,22 +35,21 @@ public class BookStockListBB implements Serializable {
 	private String code;
 	private String title;
 	private byte status = 0;
+	private String orderBy = "code";
 
 	private LazyDataModel<Bookstock> lazyBooks;
 	private Bookstock selectedBook;
 
 	@Inject
 	ExternalContext externalContext;
-
 	@Inject
 	Flash flash;
 
 	@EJB
 	BookstockDAO bookstockDAO;
-
 	@EJB
 	BorrowedDAO borrowedDAO;
-	
+
 	@PostConstruct
 	public void init() {
 		lazyBooks = new LazyDataModel<Bookstock>() {
@@ -88,6 +87,7 @@ public class BookStockListBB implements Serializable {
 					filterParams.put("title", title);
 				}
 				filterParams.put("status", status);
+				filterParams.put("orderBy", orderBy);
 
 				System.out.println(filterParams);
 				books = bookstockDAO.getLazyList(filterParams, offset, pageSize);
@@ -124,6 +124,14 @@ public class BookStockListBB implements Serializable {
 		this.status = status;
 	}
 
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+
 	public LazyDataModel<Bookstock> getLazyBooks() {
 		return lazyBooks;
 	}
@@ -136,13 +144,20 @@ public class BookStockListBB implements Serializable {
 		this.selectedBook = selectedBook;
 	}
 
+	public void clearFilter() {
+		code = null;
+		title = null;
+		status = 0;
+		orderBy = "code";
+	}
+	
+	public List<Bookstock> getFullList() {
+		return bookstockDAO.getFullList();
+	}
+
 	public void onRowSelect(SelectEvent<Bookstock> event) {
 		FacesMessage msg = new FacesMessage("Wybrana książka", String.valueOf(event.getObject().getIdBook()));
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-
-	public List<Bookstock> getFullList() {
-		return bookstockDAO.getFullList();
 	}
 
 	public List<Borrowed> getBorrowInfo(Bookstock book) {

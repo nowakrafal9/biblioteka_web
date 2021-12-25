@@ -34,29 +34,28 @@ public class BorrowedListBB implements Serializable {
 	private static final String PAGE_STAY_AT_THE_SAME = null;
 
 	private Date todayDate = java.sql.Date.valueOf(java.time.LocalDate.now());
-	
+
 	private String bookCode;
 	private String borrowerCode;
 	private byte status = 1;
 	private byte returnStatus = 0;
-	
+	private String orderBy = "bookCode";
+
 	private LazyDataModel<Borrowed> lazyBorrows;
 	private Borrowed selectedBorrow;
 
 	@Inject
 	ExternalContext externalContext;
-
 	@Inject
 	Flash flash;
 
 	@EJB
 	BorrowedDAO borrowedDAO;
-
 	@EJB
 	BookstockDAO bookstockDAO;
-	
+
 	@PostConstruct
-	public void init() {		
+	public void init() {
 		lazyBorrows = new LazyDataModel<Borrowed>() {
 			private static final long serialVersionUID = 1L;
 
@@ -91,9 +90,10 @@ public class BorrowedListBB implements Serializable {
 				if (borrowerCode != null && borrowerCode.length() > 0) {
 					filterParams.put("borrowerCode", borrowerCode);
 				}
-				filterParams.put("returnStatus", returnStatus);		// After returnDue/before borrowDue
-				filterParams.put("status", status);			// Borrow status - active/returned
-				
+				filterParams.put("returnStatus", returnStatus); // After returnDue/before borrowDue
+				filterParams.put("status", status); // Borrow status - active/returned
+				filterParams.put("orderBy", orderBy);
+
 				borrows = borrowedDAO.getLazyList(filterParams, offset, pageSize);
 				int rowCount = (int) borrowedDAO.countLazyList(filterParams);
 				setRowCount(rowCount);
@@ -135,6 +135,14 @@ public class BorrowedListBB implements Serializable {
 		this.returnStatus = returnStatus;
 	}
 
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+
 	public Borrowed getSelectedBorrow() {
 		return selectedBorrow;
 	}
@@ -152,6 +160,14 @@ public class BorrowedListBB implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
+	public void clearFilter() {
+		bookCode = null;
+		borrowerCode = null;
+		status = 1;
+		returnStatus = 0;
+		orderBy = "bookCode";
+	}
+
 	public List<Borrowed> getFullList() {
 		return borrowedDAO.getFullList();
 	}
@@ -159,26 +175,26 @@ public class BorrowedListBB implements Serializable {
 	public String formatDate(Date oldDate) {
 		return String.format("%1$te-%1$tm-%1$tY", oldDate);
 	}
-	
+
 	public boolean compareDate(Date date) {
-		if(todayDate.after(date)) {
-		    return true;
+		if (todayDate.after(date)) {
+			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public String returnBook(Borrowed borrowed) {
 		Bookstock book = bookstockDAO.find(borrowed.getBookstock().getIdBook());
-		
+
 		book.setStatus((byte) 1);
-		
+
 		borrowed.setStatus((byte) 0);
 		borrowed.setReturnDate(todayDate);
-		
+
 		borrowedDAO.merge(borrowed);
 		bookstockDAO.merge(book);
-		
+
 		return PAGE_STAY_AT_THE_SAME;
 	}
 }

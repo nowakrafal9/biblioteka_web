@@ -9,9 +9,6 @@
 
 <ui:composition template="/templates/page-template.xhtml">
 	<ui:define name="pageContent">
-		<p:panel>
-			Lista czytelników
-		</p:panel>
 
 		<p:panel header="Filtr wyszukiwania:" toggleable="true"
 			collapsed="true">
@@ -23,7 +20,7 @@
 
 					<h:outputLabel value="Imię" />
 					<p:inputText value="#{borrowerListBB.name}" />
-
+					
 					<h:outputLabel value="Nazwisko:" />
 					<p:inputText value="#{borrowerListBB.surname}" />
 
@@ -39,7 +36,16 @@
 						<f:selectItem itemLabel="Wszyscy" itemValue="2" />
 					</p:selectOneMenu>
 
+					<h:outputLabel value="Sortuj po:" />
+					<p:selectOneMenu id="sort" value="#{borrowerListBB.orderBy}">
+						<f:selectItem itemLabel="Kod" itemValue="borrowerCode" />
+						<f:selectItem itemLabel="Imię" itemValue="name" />
+						<f:selectItem itemLabel="Nazwisko" itemValue="surname" />
+						<f:selectItem itemLabel="Miasto" itemValue="city" />
+					</p:selectOneMenu>
+
 					<p:commandButton value="Szukaj" update="data-table" />
+					<p:commandButton value="Wyczyść filter" action = "#{borrowerListBB.clearFilter()}" update="@form data-table" />
 				</h:panelGrid>
 			</h:form>
 		</p:panel>
@@ -87,7 +93,7 @@
 						<p:outputPanel id="borrowerDetail" style="text-align:center;">
 							<p:panelGrid columns="2"
 								rendered="#{not empty borrowerListBB.selectedBorrower}"
-								columnClasses="label,value">
+								columnClasses="label,value" style="width:100%">
 
 								<h:outputText value="Kod: " />
 								<h:outputText
@@ -99,9 +105,6 @@
 								<h:outputText value="Nazwisko: " />
 								<h:outputText value="#{borrowerListBB.selectedBorrower.surname}" />
 
-								<h:outputText value=" " />
-								<h:outputText value=" " />
-
 								<h:outputText value="Miasto: " />
 								<h:outputText value="#{borrowerListBB.selectedBorrower.city}" />
 
@@ -112,9 +115,6 @@
 								<h:outputText value="Adres:  " />
 								<h:outputText value="#{borrowerListBB.selectedBorrower.address}" />
 
-								<h:outputText value=" " />
-								<h:outputText value=" " />
-
 								<h:outputText value="Nr telefonu:  " />
 								<h:outputText
 									value="#{borrowerListBB.selectedBorrower.phoneNum}" />
@@ -124,11 +124,23 @@
 								<h:outputText value="#{borrowerListBB.selectedBorrower.email}"
 									rendered="#{not empty borrowerListBB.selectedBorrower.email}" />
 
-								<h:outputText value=" " />
-								<h:outputText value=" " />
+								<h:outputText value="Status: "
+									rendered="#{remoteClient.isInRole('Administrator')}" />
+								<h:outputText value="Aktywny"
+									rendered="#{(borrowerListBB.selectedBorrower.status == 1) and (remoteClient.isInRole('Administrator'))}" />
+								<h:outputText value="Zablokowany"
+									rendered="#{(borrowerListBB.selectedBorrower.status == 0) and (remoteClient.isInRole('Administrator'))}" />
 
+							</p:panelGrid>
+
+							<p:divider />
+
+							<p:panelGrid columns="2"
+								rendered="#{not empty borrowerListBB.selectedBorrower}"
+								columnClasses="label,value" style="width:100%">
 								<h:outputText value="Ilość wypożyczonych książek:" />
-								<h:outputText value="#{borrowerListBB.countBooks(borrowerListBB.selectedBorrower)}" />
+								<h:outputText
+									value="#{borrowerListBB.countBooks(borrowerListBB.selectedBorrower)}" />
 							</p:panelGrid>
 
 							<p:divider rendered="#{remoteClient.isInRole('Administrator')}" />

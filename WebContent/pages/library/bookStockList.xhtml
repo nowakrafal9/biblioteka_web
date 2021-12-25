@@ -9,9 +9,7 @@
 
 <ui:composition template="/templates/page-template.xhtml">
 	<ui:define name="pageContent">
-		<p:panel>
-			Lista książek
-		</p:panel>
+
 
 		<p:panel header="Filtr wyszukiwania:" toggleable="true"
 			collapsed="true">
@@ -24,21 +22,30 @@
 					<p:inputText value="#{bookStockListBB.title}" />
 
 					<h:outputLabel value="Status książki: " />
-					<p:selectOneMenu id="status1" value="#{bookStockListBB.status}"
+					<p:selectOneMenu id="statusAdmin" value="#{bookStockListBB.status}"
 						rendered="#{remoteClient.isInRole('Administrator')}">
 						<f:selectItem itemLabel="Wszystkie w bibliotece" itemValue="0" />
 						<f:selectItem itemLabel="Niewypożyczone" itemValue="1" />
 						<f:selectItem itemLabel="Wypożyczone" itemValue="2" />
 						<f:selectItem itemLabel="Usunięte" itemValue="3" />
 					</p:selectOneMenu>
-					<p:selectOneMenu id="status2" value="#{bookStockListBB.status}"
+					<p:selectOneMenu id="statusEmployee" value="#{bookStockListBB.status}"
 						rendered="#{remoteClient.isInRole('Pracownik')}">
 						<f:selectItem itemLabel="Wszystkie w bibliotece" itemValue="0" />
 						<f:selectItem itemLabel="Niewypożyczone" itemValue="1" />
 						<f:selectItem itemLabel="Wypożyczone" itemValue="2" />
 					</p:selectOneMenu>
 
+					<h:outputLabel value="Sortuj po:" />
+					<p:selectOneMenu id="sort" value="#{bookStockListBB.orderBy}">
+						<f:selectItem itemLabel="Kod" itemValue="code" />
+						<f:selectItem itemLabel="Tytuł" itemValue="title" />
+					</p:selectOneMenu>
+
 					<p:commandButton value="Szukaj" update="data-table" />
+					<p:commandButton value="Wyczyść filter"
+						action="#{bookStockListBB.clearFilter()}"
+						update="@form data-table" />
 				</h:panelGrid>
 			</h:form>
 		</p:panel>
@@ -117,17 +124,18 @@
 								<p:panelGrid columns="2" style="border:1px solid black;">
 									<h:outputText value="Kod czytelnika: " />
 									<h:outputText value="#{borrow.borrower.borrowerCode}" />
-									
+
 									<h:outputText value="Dane czytelnika: " />
-									<h:outputText value="#{borrow.borrower.name} #{borrow.borrower.surname}" />
-									
+									<h:outputText
+										value="#{borrow.borrower.name} #{borrow.borrower.surname}" />
+
 									<h:outputText value="Data wypożyczenia: " />
 									<h:outputText value="#{borrow.borrowDate}" />
-									
+
 									<h:outputText value="Data zwrotu: " />
 									<h:outputText value="#{borrow.returnDue}" />
 								</p:panelGrid>
-							</ui:repeat>					
+							</ui:repeat>
 						</p:outputPanel>
 					</p:dialog>
 				</h:form>

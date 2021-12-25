@@ -9,10 +9,6 @@
 
 <ui:composition template="/templates/page-template.xhtml">
 	<ui:define name="pageContent">
-		<p:panel>
-			Lista wypożyczonych książek
-		</p:panel>
-
 		<p:panel header="Filtr wyszukiwania:" toggleable="true"
 			collapsed="true">
 
@@ -31,7 +27,18 @@
 						<f:selectItem itemLabel="Po terminie" itemValue="2" />
 					</p:selectOneMenu>
 
+					<h:outputLabel value="Sortuj po:" />
+					<p:selectOneMenu id="sort" value="#{borrowedListBB.orderBy}">
+						<f:selectItem itemLabel="Kod książki" itemValue="bookCode" />
+						<f:selectItem itemLabel="Kod czytelnika" itemValue="borrowerCode" />
+						<f:selectItem itemLabel="Data wypożyczenia" itemValue="borrowDate" />
+						<f:selectItem itemLabel="Data zwrotu" itemValue="returnDue" />
+					</p:selectOneMenu>
+
 					<p:commandButton value="Szukaj" update="data-table" />
+					<p:commandButton value="Wyczyść filter"
+						action="#{borrowedListBB.clearFilter()}"
+						update="@form data-table" />
 				</h:panelGrid>
 			</h:form>
 

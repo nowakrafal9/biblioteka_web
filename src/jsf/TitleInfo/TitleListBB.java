@@ -33,13 +33,13 @@ public class TitleListBB implements Serializable {
 	private String surname;
 	private String title;
 	private String publisher;
+	private String orderBy = "code";
 
 	private LazyDataModel<Bookinfo> lazyTitles;
 	private Bookinfo selectedBook;
 
 	@Inject
 	ExternalContext externalContext;
-
 	@Inject
 	Flash flash;
 
@@ -91,6 +91,7 @@ public class TitleListBB implements Serializable {
 				if (publisher != null && publisher.length() > 0) {
 					filterParams.put("publisher", publisher);
 				}
+				filterParams.put("orderBy", orderBy);
 
 				titles = bookInfoDAO.getLazyList(filterParams, offset, pageSize);
 
@@ -142,6 +143,14 @@ public class TitleListBB implements Serializable {
 		this.publisher = publisher;
 	}
 
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+
 	public LazyDataModel<Bookinfo> getLazyTitles() {
 		return lazyTitles;
 	}
@@ -152,6 +161,15 @@ public class TitleListBB implements Serializable {
 
 	public void setSelectedBook(Bookinfo selectedBook) {
 		this.selectedBook = selectedBook;
+	}
+
+	public void clearFilter() {
+		code = null;
+		name = null;
+		surname = null;
+		title = null;
+		publisher = null;
+		orderBy = "code";
 	}
 
 	public List<Bookinfo> getFullList() {
@@ -180,9 +198,9 @@ public class TitleListBB implements Serializable {
 
 	public long countBooks(Bookinfo book, String mode) {
 		long count = 0;
-		
+
 		count = bookInfoDAO.countBooks(book, mode);
-		
+
 		return count;
 	}
 }

@@ -37,22 +37,21 @@ public class BorrowerListBB implements Serializable {
 	private String surname;
 	private String city;
 	private byte status = 1;
+	private String orderBy = "borrowerCode";
 
 	private LazyDataModel<Borrower> lazyBorrowers;
 	private Borrower selectedBorrower;
 
 	@Inject
 	ExternalContext externalContext;
-
 	@Inject
 	Flash flash;
 
 	@EJB
 	BorrowerDAO borrowerDAO;
-	
 	@EJB
 	BorrowedDAO borrowedDAO;
-	
+
 	@PostConstruct
 	public void init() {
 		lazyBorrowers = new LazyDataModel<Borrower>() {
@@ -96,6 +95,7 @@ public class BorrowerListBB implements Serializable {
 					filterParams.put("city", city);
 				}
 				filterParams.put("status", status);
+				filterParams.put("orderBy", orderBy);
 
 				borrowers = borrowerDAO.getLazyList(filterParams, offset, pageSize);
 
@@ -147,6 +147,14 @@ public class BorrowerListBB implements Serializable {
 		this.status = status;
 	}
 
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+
 	public LazyDataModel<Borrower> getLazyBorrowers() {
 		return lazyBorrowers;
 	}
@@ -159,23 +167,32 @@ public class BorrowerListBB implements Serializable {
 		this.selectedBorrower = selectedBorrower;
 	}
 
-	public void onRowSelect(SelectEvent<Borrower> event) {
-		FacesMessage msg = new FacesMessage("Wybrany czytelnik", String.valueOf(event.getObject().getIdBorrower()));
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+	public void clearFilter() {
+		borrowerCode = null;
+		name = null;
+		surname = null;
+		city = null;
+		status = 1;
+		orderBy = "borrowerCode";
 	}
 
 	public List<Borrower> getFullList() {
 		return borrowerDAO.getFullList();
 	}
 
+	public void onRowSelect(SelectEvent<Borrower> event) {
+		FacesMessage msg = new FacesMessage("Wybrany czytelnik", String.valueOf(event.getObject().getIdBorrower()));
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
 	public long countBooks(Borrower borrower) {
 		long count = 0;
-		
+
 		count = borrowedDAO.countBorrowedBooks(borrower);
-		
+
 		return count;
 	}
-	
+
 	public String editBorrower(Borrower borrower) {
 		flash.put("borrower", borrower);
 
@@ -193,10 +210,10 @@ public class BorrowerListBB implements Serializable {
 	public String blockBorrower(Borrower borrower) {
 		borrower.setStatus((byte) 0);
 		borrowerDAO.merge(borrower);
-		
+
 		return PAGE_STAY_AT_THE_SAME;
 	}
-	
+
 	public String unblockBorrower(Borrower borrower) {
 		borrower.setStatus((byte) 1);
 		borrowerDAO.merge(borrower);

@@ -9,10 +9,6 @@
 
 <ui:composition template="/templates/page-template.xhtml">
 	<ui:define name="pageContent">
-		<p:panel>
-			Lista tytułów
-		</p:panel>
-
 		<p:panel header="Filtr wyszukiwania:" toggleable="true"
 			collapsed="true">
 			<h:form>
@@ -32,7 +28,17 @@
 					<h:outputLabel value="Wydwanictwo" />
 					<p:inputText value="#{titleListBB.publisher}" />
 
+					<h:outputLabel value="Sortuj po:" />
+					<p:selectOneMenu id="sort" value="#{titleListBB.orderBy}">
+						<f:selectItem itemLabel="Kod" itemValue="code" />
+						<f:selectItem itemLabel="Imię autora" itemValue="name" />
+						<f:selectItem itemLabel="Nazwisko autora" itemValue="surname" />
+						<f:selectItem itemLabel="Tytuł" itemValue="title" />
+						<f:selectItem itemLabel="Wydawnictwo" itemValue="publisher" />
+					</p:selectOneMenu>
+
 					<p:commandButton value="Szukaj" update="data-table" />
+					<p:commandButton value="Wyczyść filter" action = "#{titleListBB.clearFilter()}" update="@form data-table" />
 				</h:panelGrid>
 			</h:form>
 		</p:panel>

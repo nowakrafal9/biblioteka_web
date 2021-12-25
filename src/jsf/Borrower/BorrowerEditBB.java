@@ -21,20 +21,19 @@ import jsf.entities.Borrower;
 public class BorrowerEditBB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private static final String PAGE_BORROWER_LIST = "borrowerList?faces-redirect=true";
 	private static final String PAGE_STAY_AT_THE_SAME = null;
+	private static final String PAGE_BORROWER_LIST = "borrowerList?faces-redirect=true";
 
 	private Borrower borrower = new Borrower();
 	private Borrower loaded = null;
 
-	@EJB
-	BorrowerDAO borrowerDAO;
-
 	@Inject
 	FacesContext ctx;
-
 	@Inject
 	Flash flash;
+
+	@EJB
+	BorrowerDAO borrowerDAO;
 
 	public Borrower getBorrower() {
 		return borrower;
@@ -50,15 +49,30 @@ public class BorrowerEditBB implements Serializable {
 		}
 	}
 
+	private String generateCode() {
+		Random rand = new Random();
+
+		String borrowerCode = "";
+		boolean exists = true;
+
+		while (exists) {
+			borrowerCode = String.valueOf(rand.nextInt((99999 - 10000) + 1) + 10000);
+
+			exists = borrowerDAO.checkExist(borrowerCode);
+		}
+
+		return borrowerCode;
+	}
+
 	public String saveData() {
 		if (loaded == null) {
 			return PAGE_STAY_AT_THE_SAME;
 		}
-		
+
 		if (borrower.getEmail().length() == 0) {
 			borrower.setEmail(null);
 		}
-		
+
 		try {
 			if (borrower.getIdBorrower() == null) {
 				borrower.setBorrowerCode((String) this.generateCode());
@@ -74,19 +88,5 @@ public class BorrowerEditBB implements Serializable {
 
 		return PAGE_BORROWER_LIST;
 	}
-	
-	private String generateCode() {
-		Random rand = new Random();
-		
-		String borrowerCode = "";
-		boolean exists = true;
-		
-		while (exists) {
-			borrowerCode = String.valueOf(rand.nextInt((99999-10000)+1) + 10000);			
-			
-			exists = borrowerDAO.checkExist(borrowerCode);
-		}
-		
-		return borrowerCode;
-	}
+
 }

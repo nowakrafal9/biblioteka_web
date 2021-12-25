@@ -17,13 +17,16 @@ import jsf.entities.User;
 @Named
 @RequestScoped
 public class LoginBB {
-	private static final String PAGE_MAIN = "/pages/library/main?faces-redirect=true";
-	private static final String PAGE_LOGIN = "/pages/login";
+	@Inject
+	UserDAO userDAO;
+	
 	private static final String PAGE_STAY_AT_THE_SAME = null;
+	private static final String PAGE_LOGIN = "/pages/login";
+	private static final String PAGE_MAIN = "/pages/library/main?faces-redirect=true";
 	
 	private String login;
 	private String password;
-	
+			
 	public String getLogin() {
 		return login;
 	}
@@ -40,9 +43,6 @@ public class LoginBB {
 		this.password = password;
 	}
 	
-	@Inject
-	UserDAO userDAO;
-	
 	public String doLogin() {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		
@@ -52,7 +52,7 @@ public class LoginBB {
 		// Error if incorrect login/password
 		if(user == null) {
 			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-				"Niepoprawny login lub has≥o", null));
+				"Niepoprawny login lub has≈Ço", null));
 			return PAGE_STAY_AT_THE_SAME;
 		}
 		

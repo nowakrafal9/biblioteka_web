@@ -9,27 +9,28 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><ui:insert name="title"></ui:insert></title>
 	<h:outputStylesheet name="css/style.css" library="template" />
-	<link type="image/x-icon" rel="shortcut icon" href="#{resource['template:img/java.ico']}" />
+	<link type="image/x-icon" rel="shortcut icon"
+		href="#{resource['template:img/java.ico']}" />
 </h:head>
 
 <h:body>
 
-		<ui:insert name="header">
-			<div id="header">
-				<ui:include src="/templates/header-snippet.xhtml" />
-			</div>
-		</ui:insert>
-		
-		<div id="content">
-			<ui:insert name="content"></ui:insert>
+	<ui:insert name="header">
+		<div id="header">
+			<ui:include src="/templates/header-snippet.xhtml" />
 		</div>
-		
-		<ui:insert name="footer">
-			<div id="footer">
-				<ui:include src="/templates/footer-snippet.xhtml" />
-			</div>
-		</ui:insert>
-		
+	</ui:insert>
+
+	<div id="content">
+		<ui:insert name="content"></ui:insert>
+	</div>
+
+	<ui:insert name="footer">
+		<div id="footer">
+			<ui:include src="/templates/footer-snippet.xhtml" />
+		</div>
+	</ui:insert>
+
 </h:body>
 
 </html>
