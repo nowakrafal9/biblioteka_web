@@ -19,7 +19,7 @@ import jsf.entities.Bookstock;
 
 @Named
 @ViewScoped
-public class BookStockEditBB implements Serializable {
+public class BookStockAddBB implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final String PAGE_CONFIRM = "bookStockConfirm?faces-redirect=true";
 	private static final String PAGE_STAY_AT_THE_SAME = null;
