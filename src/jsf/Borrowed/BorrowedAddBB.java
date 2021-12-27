@@ -7,10 +7,12 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import jsf.dao.BookInfoDAO;
 import jsf.dao.BookstockDAO;
 import jsf.dao.BorrowedDAO;
 import jsf.dao.BorrowerDAO;
 import jsf.dao.UserDAO;
+import jsf.entities.Bookinfo;
 import jsf.entities.Bookstock;
 import jsf.entities.Borrowed;
 import jsf.entities.Borrower;
@@ -31,6 +33,9 @@ public class BorrowedAddBB implements Serializable {
 	private boolean foundBook = false;
 	private boolean foundBorrower = false;
 
+	private Borrower borrower;
+	private Bookinfo bookinfo;
+
 	@EJB
 	BookstockDAO bookstockDAO;
 	@EJB
@@ -38,8 +43,10 @@ public class BorrowedAddBB implements Serializable {
 	@EJB
 	BorrowedDAO borrowedDAO;
 	@EJB
+	BookInfoDAO bookInfoDAO;
+	@EJB
 	UserDAO userDAO;
-	
+
 	public String getBookCode() {
 		return bookCode;
 	}
@@ -84,11 +91,35 @@ public class BorrowedAddBB implements Serializable {
 		return foundBorrower;
 	}
 
+	public Borrower getBorrower() {
+		return borrower;
+	}
+
+	public void setBorrower(Borrower borrower) {
+		this.borrower = borrower;
+	}
+
+	public Bookinfo getBookinfo() {
+		return bookinfo;
+	}
+
+	public void setBookinfo(Bookinfo bookinfo) {
+		this.bookinfo = bookinfo;
+	}
+
 	public String findData() {
 		searched = true;
-		foundBook = bookstockDAO.checkExist(bookCode);
-		foundBorrower = borrowerDAO.checkExist(borrowerCode);
-		System.out.println(login);
+		foundBook = bookstockDAO.checkBorrowed(bookCode);
+		foundBorrower = borrowerDAO.checkActive(borrowerCode);
+
+		if (foundBook) {
+			Bookstock book = bookstockDAO.find(bookstockDAO.getBookID(bookCode));
+			this.bookinfo = bookInfoDAO.find(book.getBookinfo().getIdTitle());
+		}
+		if (foundBorrower) {
+			this.borrower = borrowerDAO.find(borrowerDAO.getBorrowerID(borrowerCode));
+		}
+
 		return PAGE_STAY_AT_THE_SAME;
 	}
 
@@ -100,23 +131,23 @@ public class BorrowedAddBB implements Serializable {
 		return PAGE_STAY_AT_THE_SAME;
 	}
 
-	public String borrowBook() {		
+	public String borrowBook() {
 		Bookstock book = bookstockDAO.find(bookstockDAO.getBookID(bookCode));
 		Borrower borrower = borrowerDAO.find(borrowerDAO.getBorrowerID(borrowerCode));
 		User user = userDAO.find(userDAO.getUserID(login));
 		Borrowed borrowedBook = new Borrowed();
-		
+
 		Date today = java.sql.Date.valueOf(java.time.LocalDate.now());
 		Date returnDate = null;
-		
-		if(borrowTime == 0) {
+
+		if (borrowTime == 0) {
 			returnDate = java.sql.Date.valueOf(java.time.LocalDate.now().plusWeeks(2));
 		} else if (borrowTime == 1) {
 			returnDate = java.sql.Date.valueOf(java.time.LocalDate.now().plusMonths(1));
 		} else if (borrowTime == 2) {
 			returnDate = java.sql.Date.valueOf(java.time.LocalDate.now().plusMonths(2));
 		}
-				
+
 		borrowedBook.setBookstock(book);
 		borrowedBook.setBorrower(borrower);
 		borrowedBook.setUser(user);
@@ -124,13 +155,12 @@ public class BorrowedAddBB implements Serializable {
 		borrowedBook.setReturnDue(returnDate);
 		borrowedBook.setReturnDate(null);
 		borrowedBook.setStatus((byte) 1);
-		
+
 		book.setStatus((byte) 2);
-		
+
 		borrowedDAO.create(borrowedBook);
 		bookstockDAO.merge(book);
-		
+
 		return PAGE_BORROWED_LIST;
 	}
 }
-

@@ -45,14 +45,14 @@
 					rendered="#{borrowedAddBB.searched == false}" />
 
 				<!-- Book found/not found -->
-				<h:outputText value="Znaleziono książkę"
+				<h:outputText value="Znaleziono książkę: #{borrowedAddBB.bookinfo.title}"
 					rendered="#{(borrowedAddBB.searched == true) and (borrowedAddBB.foundBook == true)}" />
 				<h:outputText value="Nie znaleziono książki"
 					rendered="#{(borrowedAddBB.searched == true) and (borrowedAddBB.foundBook == false)}" />
 				<br />
 
 				<!-- Borrower found/not found -->
-				<h:outputText value="Znaleziono czytelnika"
+				<h:outputText value="Znaleziono czytelnika: #{borrowedAddBB.borrower.name} #{borrowedAddBB.borrower.surname}"
 					rendered="#{(borrowedAddBB.searched == true) and (borrowedAddBB.foundBorrower == true)}" />
 				<h:outputText value="Nie znaleziono czytelnika"
 					rendered="#{(borrowedAddBB.searched == true) and (borrowedAddBB.foundBorrower == false)}" />
