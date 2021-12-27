@@ -7,14 +7,32 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
+<f:metadata>
+	<f:viewAction action="#{bookStockAddBB.onLoad()}" />
+</f:metadata>
+
 <ui:composition template="/templates/page-template.xhtml">
 	<ui:define name="pageContent">
 		<p:panel>
-			Wybierz tytuł książki
+			Dodaj książke do biblioteki
 		</p:panel>
 
 		<p:panel>
-			Pomyślnie dodano książki do bazy.
+			Pomyślnie dodano książki do bazy: <br />
+
+			<p:dataTable var="code" value="#{bookStockAddBB.codes}"
+				style="margin-top: 20px">
+				<p:column headerText="Kod">
+					<h:outputText value="#{code}" />
+				</p:column>
+				<p:column headerText="Tytuł">
+					<h:outputText value="#{bookStockAddBB.getTitle()}" />
+				</p:column>
+			</p:dataTable>
+
+			<h:link outcome="/pages/library/bookStockList">
+				<p:button value="Powrót" />
+			</h:link>
 		</p:panel>
 
 		<p:panel>

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.faces.view.ViewScoped;
@@ -25,23 +26,22 @@ public class BookStockAddBB implements Serializable {
 	private static final String PAGE_STAY_AT_THE_SAME = null;
 
 	private String titleCode;
-	private int codesToGenerate = 1;
+	private int codesToGenerate;
 	private boolean searched = false;
 	private boolean foundTitle = false;
 
 	private List<String> codes = new ArrayList<String>();;
-
-	@EJB
-	BookstockDAO bookstockDAO;
-
-	@EJB
-	BookInfoDAO bookInfoDAO;
-
+	private List<String> loaded = null;
+	
 	@Inject
 	FacesContext ctx;
-
 	@Inject
 	Flash flash;
+	
+	@EJB
+	BookstockDAO bookstockDAO;
+	@EJB
+	BookInfoDAO bookInfoDAO;
 
 	public String getTitleCode() {
 		return titleCode;
@@ -83,6 +83,21 @@ public class BookStockAddBB implements Serializable {
 		this.codes = codes;
 	}
 
+	public void onLoad() {
+		loaded = (List<String>) flash.get("bookCodes");
+		
+		if (loaded != null) {
+			int last = loaded.size() - 1;
+			
+			titleCode = loaded.get(last);
+			loaded.remove(last);
+			
+			codes = loaded;
+		} else {
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd systemu", null));
+		}
+	}
+	
 	public String generateCodes() {
 		Random rand = new Random();
 		Boolean codeExists;
@@ -106,10 +121,15 @@ public class BookStockAddBB implements Serializable {
 				
 				codesToGenerate--;
 			}
-			System.out.println(codes);
 		}
 
 		return PAGE_STAY_AT_THE_SAME;
+	}
+	
+	public String getTitle() {
+		Bookinfo bookinfo = bookInfoDAO.find(bookInfoDAO.getTitleID(titleCode));
+			
+		return bookinfo.getTitle();
 	}
 	
 	public String undoSearch() {
@@ -132,6 +152,10 @@ public class BookStockAddBB implements Serializable {
 			
 			bookstockDAO.merge(book);
 		}
+		
+		codes.add(titleCode);
+		
+		flash.put("bookCodes", codes);
 		
 		return PAGE_CONFIRM;
 	}

@@ -53,7 +53,7 @@
 		<p:panel header="Panel administratora" toggleable="true"
 			collapsed="true" rendered="#{remoteClient.isInRole('Administrator')}">
 
-			<h:link outcome="/pages/admin/bookStockEdit">
+			<h:link outcome="/pages/admin/bookStockAdd" style="margin-top: 10px">
 				<p:button value="Dodaj nową książkę" />
 			</h:link>
 
@@ -120,8 +120,8 @@
 							<ui:repeat var="borrow"
 								value="#{bookStockListBB.getBorrowInfo(bookStockListBB.selectedBook)}"
 								rendered="#{(not empty bookStockListBB.selectedBook) and (bookStockListBB.selectedBook.status == 2)}"
-								style="margin:auto">
-								<p:panelGrid columns="2" style="border:1px solid black;">
+								>
+								<p:panelGrid columns="2" style="border:1px solid black; margin: 10px auto;">
 									<h:outputText value="Kod czytelnika: " />
 									<h:outputText value="#{borrow.borrower.borrowerCode}" />
 

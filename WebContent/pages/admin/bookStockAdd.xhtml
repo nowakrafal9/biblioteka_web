@@ -10,7 +10,7 @@
 <ui:composition template="/templates/page-template.xhtml">
 	<ui:define name="pageContent">
 		<p:panel>
-			Wybierz tytuł książki
+			Dodaj książke do biblioteki
 		</p:panel>
 
 		<p:panel header="Filtr wyszukiwania:" toggleable="true"
@@ -108,7 +108,7 @@
 						<h:outputText value="#{code}" />
 					</p:column>
 					<p:column headerText="Tytuł">
-						<h:outputText value="-Tytuł książki-" />
+						<h:outputText value="#{bookStockAddBB.getTitle()}" />
 					</p:column>
 				</p:dataTable>
 
