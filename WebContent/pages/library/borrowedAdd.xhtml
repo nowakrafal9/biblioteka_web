@@ -42,7 +42,7 @@
 
 				<p:commandButton value="Sprawdź dane" update="add-borrow"
 					action="#{borrowedAddBB.findData()}"
-					rendered="#{borrowedAddBB.searched == false}" />
+					rendered="#{borrowedAddBB.searched == false}" styleClass="ui-button-secondary"/>
 
 				<!-- Book found/not found -->
 				<h:outputText value="Znaleziono książkę: #{borrowedAddBB.bookinfo.title}"
@@ -64,24 +64,17 @@
 					rendered="#{ (borrowedAddBB.searched == true) and
 								 (borrowedAddBB.foundBorrower == true) and
 								 (borrowedAddBB.foundBook == true) }"
-					style="margin-right: 10px; margin-top:10px;" />
+					style="margin-right: 10px; margin-top:10px;" styleClass="ui-button-secondary"/>
 
 				<!--Undo search -->
 				<p:commandButton value="Cofnij wyszukanie" update="add-borrow"
 					action="#{borrowedAddBB.undoSearch()}"
 					rendered="#{ (borrowedAddBB.searched == true) }"
-					style="margin-top:10px;" />
+					style="margin-top:10px;" styleClass="ui-button-secondary"/>
 
 			</h:form>
 		</p:panel>
 
-		<p:panel>
-			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
-
-			<h:form>
-				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
-			</h:form>
-		</p:panel>
 	</ui:define>
 </ui:composition>
 </html>

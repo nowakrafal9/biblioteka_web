@@ -73,20 +73,13 @@
 
 					<p:commandButton value="Zapisz"
 						action="#{employeeEditBB.saveData()}" style="margin-right: 1em;"
-						update="@form" />
+						update="@form" styleClass="ui-button-secondary"/>
 
-					<p:button value="Anuluj" outcome="employeeList" />
+					<p:button value="Anuluj" outcome="employeeList" styleClass="ui-button-secondary"/>
 				</h:form>
 			</div>
 		</p:panel>
 
-		<p:panel>
-			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
-
-			<h:form>
-				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
-			</h:form>
-		</p:panel>
 	</ui:define>
 </ui:composition>
 </html>

@@ -44,8 +44,8 @@
 						<f:selectItem itemLabel="Miasto" itemValue="city" />
 					</p:selectOneMenu>
 
-					<p:commandButton value="Szukaj" update="data-table" />
-					<p:commandButton value="Wyczyść filter" action = "#{borrowerListBB.clearFilter()}" update="@form data-table" />
+					<p:commandButton value="Szukaj" update="data-table" styleClass="ui-button-secondary"/>
+					<p:commandButton value="Wyczyść filter" action = "#{borrowerListBB.clearFilter()}" update="@form data-table" styleClass="ui-button-secondary"/>
 				</h:panelGrid>
 			</h:form>
 		</p:panel>
@@ -54,7 +54,7 @@
 			collapsed="true" rendered="#{remoteClient.isInRole('Administrator')}">
 			<h:form>
 				<p:commandButton value="Dodaj nowego czytelnika"
-					action="#{borrowerListBB.newBorrower()}" />
+					action="#{borrowerListBB.newBorrower()}" styleClass="ui-button-secondary"/>
 			</h:form>
 		</p:panel>
 
@@ -151,15 +151,15 @@
 
 								<p:commandButton value="Edytuj"
 									action="#{borrowerListBB.editBorrower(borrowerListBB.selectedBorrower)}"
-									style="margin-right: 2px;" />
+									style="margin-right: 2px;" styleClass="ui-button-secondary"/>
 								<p:commandButton value="Zablokuj"
 									action="#{borrowerListBB.blockBorrower(borrowerListBB.selectedBorrower)}"
 									update="@form" style="margin-left: 2px;"
-									rendered="#{borrowerListBB.selectedBorrower.status == 1}" />
+									rendered="#{borrowerListBB.selectedBorrower.status == 1}" styleClass="ui-button-secondary"/>
 								<p:commandButton value="Odblokuj"
 									action="#{borrowerListBB.unblockBorrower(borrowerListBB.selectedBorrower)}"
 									update="@form" style="margin-left: 2px;"
-									rendered="#{borrowerListBB.selectedBorrower.status == 0}" />
+									rendered="#{borrowerListBB.selectedBorrower.status == 0}" styleClass="ui-button-secondary"/>
 
 							</p:panelGrid>
 						</p:outputPanel>
@@ -168,13 +168,6 @@
 			</div>
 		</p:panel>
 
-		<p:panel>
-			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
-
-			<h:form>
-				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
-			</h:form>
-		</p:panel>
 	</ui:define>
 </ui:composition>
 </html>

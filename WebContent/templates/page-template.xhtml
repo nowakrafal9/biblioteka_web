@@ -9,12 +9,90 @@
 <ui:composition template="/templates/main-template.xhtml">
 
 	<ui:define name="title">
-		Biblioteka
+		<div id="wrapper">
+			<div id="leftDiv">
+				<h3>Projekt Biblioteka, JPDSI/PBAW</h3>
+			</div>
+
+			<div id="rightDiv">
+				<h3>
+					<h:outputText value="Zalogowano: #{remoteClient.details.login}" />
+				</h3>
+			</div>
+		</div>
 	</ui:define>
-	
+
 	<ui:define name="content">
+		<p:sidebar widgetVar="sidebar" baseZIndex="10000">
+			<h1 style="font-weight: normal">Menu</h1>
+
+			<ul>
+				<li>
+					<h:link value="Strona główna" outcome="/pages/library/main" />
+				</li>
+								
+				<li>
+					<h:link value="Lista czytelników" outcome="/pages/library/borrowerList" />
+				</li>
+				
+				<ui:fragment rendered="#{remoteClient.isInRole('Administrator')}">
+					<ul>
+						<li><h:link value="Dodaj czytelnika" outcome="/pages/library/borrowerEdit" /></li>
+					</ul>
+				</ui:fragment>
+				
+				<li>
+					<h:link value="Lista tytułów" outcome="/pages/library/titleList" />
+				</li>
+				
+				<li>
+					<h:link value="Lista książek" outcome="/pages/library/bookStockList" />
+				</li>
+				
+				<ui:fragment rendered="#{remoteClient.isInRole('Administrator')}">
+					<ul>
+						<li><h:link value="Dodaj książkę" outcome="/pages/admin/bookStockAdd" /></li>
+					</ul>
+				</ui:fragment>
+				
+				<li>
+					<h:link value="Lista wypożyczonych książek" outcome="/pages/library/borrowedList" />
+				</li>
+				
+				<ul>
+					<li><h:link value="Wypożycz książkę" outcome="/pages/library/borrowedAdd" /></li>
+				</ul>
+					
+				<ui:fragment rendered="#{remoteClient.isInRole('Administrator')}">
+					<li >
+						<h:link value="Lista pracowników" outcome="/pages/admin/employeeList" />
+					</li>
+					
+					<ul>
+						<li><h:link value="Dodaj pracownika" outcome="/pages/admin/employeeEdit" /></li>
+					</ul>
+					
+				</ui:fragment>
+				
+			</ul>
+			
+			<h:form>
+				<p:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" styleClass="ui-button-secondary" />
+			</h:form>
+			
+			
+		</p:sidebar>
+
+		<div id="menuButtonPosAbs">
+			<div id="menuButtonPosSti">
+				<h:form>
+					<p:commandButton icon="pi pi-list"
+						oncomplete="PF('sidebar').show()" id="menuButton" styleClass="ui-button-secondary"/>
+				</h:form>
+			</div>
+		</div>
 		<ui:insert name="pageContent"></ui:insert>
 	</ui:define>
-	
+
 </ui:composition>
 </html>

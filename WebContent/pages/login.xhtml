@@ -7,7 +7,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<ui:composition template="/templates/page-template.xhtml">
+<ui:composition template="/templates/login-template.xhtml">
 	<ui:define name="pageContent">
 		<p:panel>
 			<h:form>
@@ -22,7 +22,7 @@
 				</p:panelGrid>
 
 				<p:commandButton value="Zaloguj" action="#{loginBB.doLogin()}"
-					update="@form" />
+					update="@form" styleClass="ui-button-secondary"/>
 
 				<p:messages id="msg" />
 			</h:form>

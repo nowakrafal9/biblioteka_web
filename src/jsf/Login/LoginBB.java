@@ -21,7 +21,7 @@ public class LoginBB {
 	UserDAO userDAO;
 	
 	private static final String PAGE_STAY_AT_THE_SAME = null;
-	private static final String PAGE_LOGIN = "/pages/login";
+	private static final String PAGE_LOGIN = "/pages/login?faces-redirect=true";
 	private static final String PAGE_MAIN = "/pages/library/main?faces-redirect=true";
 	
 	private String login;

@@ -29,7 +29,8 @@
 						<f:selectItem itemLabel="Wypożyczone" itemValue="2" />
 						<f:selectItem itemLabel="Usunięte" itemValue="3" />
 					</p:selectOneMenu>
-					<p:selectOneMenu id="statusEmployee" value="#{bookStockListBB.status}"
+					<p:selectOneMenu id="statusEmployee"
+						value="#{bookStockListBB.status}"
 						rendered="#{remoteClient.isInRole('Pracownik')}">
 						<f:selectItem itemLabel="Wszystkie w bibliotece" itemValue="0" />
 						<f:selectItem itemLabel="Niewypożyczone" itemValue="1" />
@@ -42,10 +43,11 @@
 						<f:selectItem itemLabel="Tytuł" itemValue="title" />
 					</p:selectOneMenu>
 
-					<p:commandButton value="Szukaj" update="data-table" />
+					<p:commandButton value="Szukaj" update="data-table"
+						styleClass="ui-button-secondary" />
 					<p:commandButton value="Wyczyść filter"
 						action="#{bookStockListBB.clearFilter()}"
-						update="@form data-table" />
+						update="@form data-table" styleClass="ui-button-secondary" />
 				</h:panelGrid>
 			</h:form>
 		</p:panel>
@@ -54,7 +56,8 @@
 			collapsed="true" rendered="#{remoteClient.isInRole('Administrator')}">
 
 			<h:link outcome="/pages/admin/bookStockAdd" style="margin-top: 10px">
-				<p:button value="Dodaj nową książkę" />
+				<p:button value="Dodaj nową książkę"
+					styleClass="ui-button-secondary" />
 			</h:link>
 
 		</p:panel>
@@ -109,18 +112,21 @@
 							<p:commandButton value="Usuń książkę"
 								action="#{bookStockListBB.removeBook(bookStockListBB.selectedBook)}"
 								update="@form" style="margin-left: 2px;"
-								rendered="#{(bookStockListBB.selectedBook.status == 1) and (remoteClient.isInRole('Administrator'))}" />
+								rendered="#{(bookStockListBB.selectedBook.status == 1) and (remoteClient.isInRole('Administrator'))}"
+								styleClass="ui-button-secondary" />
 							<p:commandButton value="Przywróć książkę"
 								action="#{bookStockListBB.restoreBook(bookStockListBB.selectedBook)}"
 								update="@form" style="margin-left: 2px;"
-								rendered="#{(bookStockListBB.selectedBook.status == 0) and (remoteClient.isInRole('Administrator'))}" />
+								rendered="#{(bookStockListBB.selectedBook.status == 0) and (remoteClient.isInRole('Administrator'))}"
+								styleClass="ui-button-secondary" />
 
 							<h:outputText value="Status wypożyczenia:"
 								rendered="#{bookStockListBB.selectedBook.status == 2}" />
 							<ui:repeat var="borrow"
 								value="#{bookStockListBB.getBorrowInfo(bookStockListBB.selectedBook)}"
 								rendered="#{(not empty bookStockListBB.selectedBook) and (bookStockListBB.selectedBook.status == 2)}">
-								<p:panelGrid columns="2" style="border:1px solid black; margin: 10px auto;">
+								<p:panelGrid columns="2"
+									style="border:1px solid black; margin: 10px auto;">
 									<h:outputText value="Kod czytelnika: " />
 									<h:outputText value="#{borrow.borrower.borrowerCode}" />
 
@@ -141,13 +147,6 @@
 			</div>
 		</p:panel>
 
-		<p:panel>
-			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
-
-			<h:form>
-				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
-			</h:form>
-		</p:panel>
 	</ui:define>
 </ui:composition>
 </html>

@@ -5,11 +5,20 @@ body {
 	display: flex;
 	flex-direction: column;
 	justify-content: right;
-	width: 70%;
+	width: 80%;
 }
 
-a{
+a {
 	color: gray;
+	text-decoration:none;
+}
+
+a:hover {
+	color: white;
+}
+
+.ui-panel {
+	margin: 0 0.5em 1em 0.5em;
 }
 
 #header {
@@ -17,12 +26,32 @@ a{
 	text-align: center;
 }
 
-#footer{
+#footer {
 	text-align: center;
 }
 
-.ui-panel {
-	margin: 0 0.5em 1em 0.5em;
+#wrapper {
+	display: flex;
 }
 
+#leftDiv {
+	text-align: left;
+	width: 50%;
+}
 
+#rightDiv {
+	text-align: right;
+	width: 50%;
+}
+
+#menuButtonPosAbs {
+	position: fixed;
+	top: 20px;
+	left: 20px;
+}
+
+#menuButtonPosSti {
+	position: sticky;
+	top: 20px;
+	left: 20px;
+}

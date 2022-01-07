@@ -8,11 +8,15 @@
 
 <ui:composition template="/templates/main-template.xhtml">
 
-	<ui:define name="content">
-
-		<ui:insert name="pageContent"></ui:insert>
-
+	<ui:define name="title">
+		<div id="leftDiv">
+			<h2>Projekt Biblioteka, JPDSI/PBAW</h2>
+		</div>
 	</ui:define>
-	
+
+	<ui:define name="content">
+		<ui:insert name="pageContent"></ui:insert>
+	</ui:define>
+
 </ui:composition>
 </html>

@@ -24,7 +24,8 @@
 						<f:selectItem itemLabel="Wszystkie" itemValue="2" />
 					</p:selectOneMenu>
 
-					<p:commandButton value="Szukaj" update="data-table" />
+					<p:commandButton value="Szukaj" update="data-table"
+						styleClass="ui-button-secondary" />
 				</h:panelGrid>
 			</h:form>
 		</p:panel>
@@ -33,7 +34,8 @@
 			collapsed="true" rendered="#{remoteClient.isInRole('Administrator')}">
 			<h:form>
 				<p:commandButton value="Dodaj nowe konto"
-					action="#{employeeListBB.newUser()}" />
+					action="#{employeeListBB.newUser()}"
+					styleClass="ui-button-secondary" />
 			</h:form>
 		</p:panel>
 
@@ -65,7 +67,8 @@
 						<p:outputPanel id="employeeDetail" style="text-align:center;">
 							<p:panelGrid columns="2"
 								rendered="#{not empty employeeListBB.selectedUser}"
-								columnClasses="label,value">
+								columnClasses="label,value"
+								style="width: 100%;">
 
 								<h:outputText value="Imię: " />
 								<h:outputText value="#{employeeListBB.selectedUser.name}" />
@@ -94,15 +97,18 @@
 								styleClass="ui-noborder" style="margin:auto;">
 
 								<p:commandButton value="Edytuj"
-									action="#{employeeListBB.editUser(employeeListBB.selectedUser)}" />
+									action="#{employeeListBB.editUser(employeeListBB.selectedUser)}"
+									styleClass="ui-button-secondary" />
 								<p:commandButton value="Zablokuj"
 									action="#{employeeListBB.blockUser(employeeListBB.selectedUser)}"
 									update="@form"
-									rendered="#{employeeListBB.selectedUser.status == 1}" />
+									rendered="#{employeeListBB.selectedUser.status == 1}"
+									styleClass="ui-button-secondary" />
 								<p:commandButton value="Odblokuj"
 									action="#{employeeListBB.unblockUser(employeeListBB.selectedUser)}"
 									update="@form"
-									rendered="#{employeeListBB.selectedUser.status == 0}" />
+									rendered="#{employeeListBB.selectedUser.status == 0}"
+									styleClass="ui-button-secondary" />
 
 							</p:panelGrid>
 						</p:outputPanel>
@@ -111,13 +117,6 @@
 			</div>
 		</p:panel>
 
-		<p:panel>
-			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
-
-			<h:form>
-				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
-			</h:form>
-		</p:panel>
 	</ui:define>
 </ui:composition>
 </html>

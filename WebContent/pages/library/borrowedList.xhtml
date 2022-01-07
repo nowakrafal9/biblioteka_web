@@ -35,10 +35,10 @@
 						<f:selectItem itemLabel="Data zwrotu" itemValue="returnDue" />
 					</p:selectOneMenu>
 
-					<p:commandButton value="Szukaj" update="data-table" />
+					<p:commandButton value="Szukaj" update="data-table" styleClass="ui-button-secondary"/>
 					<p:commandButton value="Wyczyść filter"
 						action="#{borrowedListBB.clearFilter()}"
-						update="@form data-table" />
+						update="@form data-table" styleClass="ui-button-secondary"/>
 				</h:panelGrid>
 			</h:form>
 
@@ -46,7 +46,7 @@
 
 		<p:panel header="Panel pracownika" toggleable="true" collapsed="true">
 			<h:link outcome="/pages/library/borrowedAdd">
-				<p:button value="Wypożycz książkę" />
+				<p:button value="Wypożycz książkę" styleClass="ui-button-secondary"/>
 			</h:link>
 		</p:panel>
 
@@ -145,7 +145,7 @@
 							<p:commandButton value="Zwróć książkę"
 								action="#{borrowedListBB.returnBook(borrowedListBB.selectedBorrow)}"
 								update="@form" style="margin-top: 20px"
-								rendered="#{borrowedListBB.selectedBorrow.status == 1}" />
+								rendered="#{borrowedListBB.selectedBorrow.status == 1}" styleClass="ui-button-secondary"/>
 						</p:outputPanel>
 					</p:dialog>
 
@@ -153,13 +153,6 @@
 			</div>
 		</p:panel>
 
-		<p:panel>
-			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
-
-			<h:form>
-				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
-			</h:form>
-		</p:panel>
 	</ui:define>
 </ui:composition>
 </html>

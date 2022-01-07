@@ -37,8 +37,8 @@
 						<f:selectItem itemLabel="Wydawnictwo" itemValue="publisher" />
 					</p:selectOneMenu>
 
-					<p:commandButton value="Szukaj" update="data-table" />
-					<p:commandButton value="Wyczyść filter" action = "#{titleListBB.clearFilter()}" update="@form data-table" />
+					<p:commandButton value="Szukaj" update="data-table" styleClass="ui-button-secondary"/>
+					<p:commandButton value="Wyczyść filter" action = "#{titleListBB.clearFilter()}" update="@form data-table" styleClass="ui-button-secondary"/>
 				</h:panelGrid>
 			</h:form>
 		</p:panel>
@@ -123,13 +123,6 @@
 			</div>
 		</p:panel>
 
-		<p:panel>
-			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
-
-			<h:form>
-				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
-			</h:form>
-		</p:panel>
 	</ui:define>
 </ui:composition>
 </html>

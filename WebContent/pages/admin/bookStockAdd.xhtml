@@ -33,7 +33,8 @@
 					<h:outputLabel value="Wydwanictwo" />
 					<p:inputText value="#{titleListBB.publisher}" />
 
-					<p:commandButton value="Szukaj" update="data-table" />
+					<p:commandButton value="Szukaj" update="data-table"
+						styleClass="ui-button-secondary" />
 				</h:panelGrid>
 			</h:form>
 
@@ -115,31 +116,28 @@
 				<br />
 				<p:commandButton value="Generuj kody" update="add-book"
 					action="#{bookStockAddBB.generateCodes()}"
-					rendered="#{bookStockAddBB.searched == false}" />
+					rendered="#{bookStockAddBB.searched == false}"
+					styleClass="ui-button-secondary" />
 
 				<p:commandButton value="Cofnij" update="add-book"
 					action="#{bookStockAddBB.undoSearch()}"
-					rendered="#{(bookStockAddBB.searched == true) and (bookStockAddBB.foundTitle == false)}" />
+					rendered="#{(bookStockAddBB.searched == true) and (bookStockAddBB.foundTitle == false)}"
+					styleClass="ui-button-secondary" />
 
 				<h:panelGrid columns="2" cellpadding="5"
 					rendered="#{(bookStockAddBB.searched == true) and (bookStockAddBB.foundTitle == true)}">
 					<p:commandButton value="Dodaj książki do bazy"
-						action="#{bookStockAddBB.saveData()}" />
+						action="#{bookStockAddBB.saveData()}"
+						styleClass="ui-button-secondary" />
 
 					<p:commandButton value="Cofnij" update="add-book"
-						action="#{bookStockAddBB.undoSearch()}" />
+						action="#{bookStockAddBB.undoSearch()}"
+						styleClass="ui-button-secondary" />
 				</h:panelGrid>
 
 			</h:form>
 		</p:panel>
 
-		<p:panel>
-			<h:outputText value="Zalogowany: #{remoteClient.details.login}" />
-
-			<h:form>
-				<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
-			</h:form>
-		</p:panel>
 	</ui:define>
 </ui:composition>
 </html>
