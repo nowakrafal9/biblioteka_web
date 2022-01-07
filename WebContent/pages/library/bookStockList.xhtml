@@ -119,8 +119,7 @@
 								rendered="#{bookStockListBB.selectedBook.status == 2}" />
 							<ui:repeat var="borrow"
 								value="#{bookStockListBB.getBorrowInfo(bookStockListBB.selectedBook)}"
-								rendered="#{(not empty bookStockListBB.selectedBook) and (bookStockListBB.selectedBook.status == 2)}"
-								>
+								rendered="#{(not empty bookStockListBB.selectedBook) and (bookStockListBB.selectedBook.status == 2)}">
 								<p:panelGrid columns="2" style="border:1px solid black; margin: 10px auto;">
 									<h:outputText value="Kod czytelnika: " />
 									<h:outputText value="#{borrow.borrower.borrowerCode}" />
