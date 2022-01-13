@@ -14,7 +14,7 @@
 <ui:composition template="/templates/page-template.xhtml">
 	<ui:define name="pageContent">
 		<p:panel>
-			Dodaj książke do biblioteki
+			<center>Dodaj książke do biblioteki</center>
 		</p:panel>
 
 		<p:panel>
@@ -29,9 +29,9 @@
 					<h:outputText value="#{bookStockAddBB.getTitle()}" />
 				</p:column>
 			</p:dataTable>
-
+			<br/>
 			<h:link outcome="/pages/library/bookStockList">
-				<p:button value="Powrót" />
+				<p:button value="Powrót" styleClass="ui-button-secondary"/>
 			</h:link>
 		</p:panel>
 

@@ -95,7 +95,8 @@
 						<p:outputPanel id="bookDetail" style="text-align:center;">
 							<p:panelGrid columns="2"
 								rendered="#{not empty bookStockListBB.selectedBook}"
-								columnClasses="label,value">
+								columnClasses="label,value"
+								style="width:100%;">
 
 								<h:outputText value="Kod:" />
 								<h:outputText value="#{bookStockListBB.selectedBook.code}" />

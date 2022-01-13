@@ -14,10 +14,12 @@
 <ui:composition template="/templates/page-template.xhtml">
 	<ui:define name="pageContent">
 		<p:panel>
-			<h:outputText value="Edycja czytelnika"
-				rendered="#{borrowerEditBB.borrower.idBorrower != null}" />
-			<h:outputText value="Nowy czytelnik"
-				rendered="#{borrowerEditBB.borrower.idBorrower == null}" />
+			<center>
+				<h:outputText value="Edycja czytelnika"
+					rendered="#{borrowerEditBB.borrower.idBorrower != null}" />
+				<h:outputText value="Nowy czytelnik"
+					rendered="#{borrowerEditBB.borrower.idBorrower == null}" />
+			</center>
 		</p:panel>
 
 		<p:panel>
@@ -29,7 +31,8 @@
 						<p:inputText id="name" value="#{borrowerEditBB.borrower.name}"
 							required="true" requiredMessage="Podaj imię"
 							validatorMessage="Nieprawidłowy format danych">
-							<f:validateRegex pattern="^[A-Z][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{2,49}$" />
+							<f:validateRegex
+								pattern="^[A-ZĄĘŁŃÓŚŹŻ][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{2,49}$" />
 						</p:inputText>
 						<p:message for="name" />
 
@@ -38,7 +41,8 @@
 							value="#{borrowerEditBB.borrower.surname}" required="true"
 							requiredMessage="Podaj Nazwisko"
 							validatorMessage="Nieprawidłowy format danych">
-							<f:validateRegex pattern="^[A-Z][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{2,49}$" />
+							<f:validateRegex
+								pattern="^[A-ZĄĘŁŃÓŚŹŻ][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{2,49}$" />
 						</p:inputText>
 						<p:message for="surname" />
 
@@ -46,7 +50,8 @@
 						<p:inputText id="city" value="#{borrowerEditBB.borrower.city}"
 							required="true" requiredMessage="Podaj miasto"
 							validatorMessage="Nieprawidłowy format danych">
-							<f:validateRegex pattern="^[A-Z][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{3,49}$" />
+							<f:validateRegex
+								pattern="^[A-ZĄĘŁŃÓŚŹŻ][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{3,49}$" />
 						</p:inputText>
 						<p:message for="city" />
 
@@ -64,7 +69,8 @@
 							value="#{borrowerEditBB.borrower.address}" required="true"
 							requiredMessage="Podaj adres"
 							validatorMessage="Nieprawidłowy format danych(ul. Powstańców 2/4)">
-							<f:validateRegex pattern="^ul[\x2e][\x20][A-Z][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ0-9\x20\x2F.-]{0,95}$" />
+							<f:validateRegex
+								pattern="^ul[\x2e][\x20][A-ZĄĘŁŃÓŚŹŻ][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ0-9\x20\x2F.-]{0,95}$" />
 						</p:inputText>
 						<p:message for="address" />
 
@@ -98,9 +104,10 @@
 
 					<p:commandButton value="Zapisz"
 						action="#{borrowerEditBB.saveData()}" style="margin-right: 1em;"
-						update="@form" styleClass="ui-button-secondary"/>
+						update="@form" styleClass="ui-button-secondary" />
 
-					<p:button value="Anuluj" outcome="borrowerList" styleClass="ui-button-secondary"/>
+					<p:button value="Anuluj" outcome="borrowerList"
+						styleClass="ui-button-secondary" />
 				</h:form>
 			</div>
 		</p:panel>

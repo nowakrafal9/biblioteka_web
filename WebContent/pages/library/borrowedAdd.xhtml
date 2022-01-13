@@ -10,7 +10,7 @@
 <ui:composition template="/templates/page-template.xhtml">
 	<ui:define name="pageContent">
 		<p:panel>
-			Wypożycz książekę
+			<center>Wypożycz książekę</center>
 		</p:panel>
 
 		<p:panel>
@@ -37,22 +37,27 @@
 						<f:selectItem itemLabel="2 miesiące" itemValue="2" />
 					</p:selectOneMenu>
 
-					<h:outputText value="#{borrowedAddBB.setLogin(remoteClient.details.login)}" id="login" />
+					<h:outputText
+						value="#{borrowedAddBB.setLogin(remoteClient.details.login)}"
+						id="login" />
 				</h:panelGrid>
 
 				<p:commandButton value="Sprawdź dane" update="add-borrow"
 					action="#{borrowedAddBB.findData()}"
-					rendered="#{borrowedAddBB.searched == false}" styleClass="ui-button-secondary"/>
+					rendered="#{borrowedAddBB.searched == false}"
+					styleClass="ui-button-secondary" />
 
 				<!-- Book found/not found -->
-				<h:outputText value="Znaleziono książkę: #{borrowedAddBB.bookinfo.title}"
+				<h:outputText
+					value="Znaleziono książkę: #{borrowedAddBB.bookinfo.title}"
 					rendered="#{(borrowedAddBB.searched == true) and (borrowedAddBB.foundBook == true)}" />
 				<h:outputText value="Nie znaleziono książki"
 					rendered="#{(borrowedAddBB.searched == true) and (borrowedAddBB.foundBook == false)}" />
 				<br />
 
 				<!-- Borrower found/not found -->
-				<h:outputText value="Znaleziono czytelnika: #{borrowedAddBB.borrower.name} #{borrowedAddBB.borrower.surname}"
+				<h:outputText
+					value="Znaleziono czytelnika: #{borrowedAddBB.borrower.name} #{borrowedAddBB.borrower.surname}"
 					rendered="#{(borrowedAddBB.searched == true) and (borrowedAddBB.foundBorrower == true)}" />
 				<h:outputText value="Nie znaleziono czytelnika"
 					rendered="#{(borrowedAddBB.searched == true) and (borrowedAddBB.foundBorrower == false)}" />
@@ -64,13 +69,14 @@
 					rendered="#{ (borrowedAddBB.searched == true) and
 								 (borrowedAddBB.foundBorrower == true) and
 								 (borrowedAddBB.foundBook == true) }"
-					style="margin-right: 10px; margin-top:10px;" styleClass="ui-button-secondary"/>
+					style="margin-right: 10px; margin-top:10px;"
+					styleClass="ui-button-secondary" />
 
 				<!--Undo search -->
 				<p:commandButton value="Cofnij wyszukanie" update="add-borrow"
 					action="#{borrowedAddBB.undoSearch()}"
 					rendered="#{ (borrowedAddBB.searched == true) }"
-					style="margin-top:10px;" styleClass="ui-button-secondary"/>
+					style="margin-top:10px;" styleClass="ui-button-secondary" />
 
 			</h:form>
 		</p:panel>

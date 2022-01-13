@@ -14,10 +14,12 @@
 <ui:composition template="/templates/page-template.xhtml">
 	<ui:define name="pageContent">
 		<p:panel>
-			<h:outputText value="Edycja konta"
-				rendered="#{employeeEditBB.user.idUser != null}" />
-			<h:outputText value="Nowe konto"
-				rendered="#{employeeEditBB.user.idUser == null}" />
+			<center>
+				<h:outputText value="Edycja konta"
+					rendered="#{employeeEditBB.user.idUser != null}" />
+				<h:outputText value="Nowe konto"
+					rendered="#{employeeEditBB.user.idUser == null}" />
+			</center>
 		</p:panel>
 
 		<p:panel>
@@ -30,7 +32,7 @@
 							required="true" requiredMessage="Podaj imię"
 							validatorMessage="Nieprawidłowy format danych">
 							<f:validateRegex
-								pattern="^[A-Z][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{2,49}$" />
+								pattern="^[A-ZĄĘŁŃÓŚŹŻ][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{2,49}$" />
 						</p:inputText>
 						<p:message for="name" />
 
@@ -39,7 +41,7 @@
 							required="true" requiredMessage="Podaj imię"
 							validatorMessage="Nieprawidłowy format danych">
 							<f:validateRegex
-								pattern="^[A-Z][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{2,49}$" />
+								pattern="^[A-ZĄĘŁŃÓŚŹŻ][a-zA-ząćęłńóśźżĄĘŁŃÓŚŹŻ\x20]{2,49}$" />
 						</p:inputText>
 						<p:message for="surname" />
 
@@ -57,7 +59,7 @@
 							rendered="#{employeeEditBB.user.idUser == null}" />
 						<p:inputText id="pass" value="#{employeeEditBB.newPass}"
 							required="false"
-							validatorMessage="Hasło musi mieć pomiędzy conajwyżej 20 znaków">
+							validatorMessage="Hasło musi mieć co najwyżej 20 znaków">
 							<f:validateLength maximum="20" />
 						</p:inputText>
 						<p:message for="pass" />
@@ -73,9 +75,10 @@
 
 					<p:commandButton value="Zapisz"
 						action="#{employeeEditBB.saveData()}" style="margin-right: 1em;"
-						update="@form" styleClass="ui-button-secondary"/>
+						update="@form" styleClass="ui-button-secondary" />
 
-					<p:button value="Anuluj" outcome="employeeList" styleClass="ui-button-secondary"/>
+					<p:button value="Anuluj" outcome="employeeList"
+						styleClass="ui-button-secondary" />
 				</h:form>
 			</div>
 		</p:panel>
